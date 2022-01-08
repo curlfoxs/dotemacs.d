@@ -42,6 +42,12 @@
     (other-window 1)
     (eshell)))
 
+;;; Magit
+(define-key wullic-mode-map (kbd "s-m m") 'magit-status)
+(define-key wullic-mode-map (kbd "s-m j") 'magit-dispatch)
+(define-key wullic-mode-map (kbd "s-m k") 'magit-file-dispatch)
+(define-key wullic-mode-map (kbd "s-m l") 'magit-log-buffer-file)
+(define-key wullic-mode-map (kbd "s-m b") 'magit-blame)
 ;;; avy
 (define-key wullic-mode-map (kbd "s-j") nil)
 (define-key wullic-mode-map (kbd "s-j m") 'bookmark-set)

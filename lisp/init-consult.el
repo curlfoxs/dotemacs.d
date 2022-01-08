@@ -5,6 +5,10 @@
 ;;---------------------------------------------------------------------
 ;; Basic config
 ;;---------------------------------------------------------------------
+(global-set-key (kbd "C-s") 'consult-line)
+(global-set-key (kbd "C-x b") 'consult-buffer)
+(global-set-key (kbd "M-y") 'consult-yank-pop)
+(global-set-key (kbd "C-c f") 'consult-recent-file)
 ;; Enable automatic preview at point in the *Completions* buffer. This is
 ;; relevant when you use the default completion UI. You may want to also
 ;; enable `consult-preview-at-point-mode` in Embark Collect buffers.
@@ -30,13 +34,8 @@
 ;; Keymap & Basic config lazily
 ;;---------------------------------------------------------------------
 (with-eval-after-load 'consult
-  (global-set-key (kbd "C-s") 'consult-line)
-  (global-set-key (kbd "C-x b") 'consult-buffer)
-  (global-set-key (kbd "M-y") 'consult-yank-pop)
-  (global-set-key (kbd "C-c f") 'consult-recent-file)
-  (setq consult-preview-key (list (kbd "<S-down>") (kbd "<S-up>") (kbd "M-." )))
+  ;; (setq consult-preview-key (list (kbd "<S-down>") (kbd "<S-up>") (kbd "M-." )))
   ;; Both < and C-+ work reasonably well.
-  (setq consult-narrow-key "<") ;; (kbd "C-+")
   ;; For some commands and buffer sources it is useful to configure the
   ;; :preview-key on a per-command basis using the `consult-customize' macro.
   (consult-customize
@@ -47,6 +46,7 @@
    consult--source-recent-file consult--source-project-recent-file consult--source-bookmark
    :preview-key (kbd "M-."))
 
+  (setq consult-narrow-key "<") ;; (kbd "C-+")
   ;; Optionally make narrowing help available in the minibuffer.
   ;; You may want to use `embark-prefix-help-command' or which-key instead.
   ;; (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
