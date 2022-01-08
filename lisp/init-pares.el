@@ -20,7 +20,8 @@
   ;; Suppress certain paredit keybindings to avoid clashes, including
   ;; my global binding of M-?
   (dolist (binding '("C-<left>" "C-<right>" "C-M-<left>" "C-M-<right>" "M-s" "M-?"))
-    (define-key paredit-mode-map (read-kbd-macro binding) nil)))
+    (define-key paredit-mode-map (read-kbd-macro binding) nil))
+  (keymap-unset paredit-mode-map (kbd "C-d")))
 
 
 
@@ -47,11 +48,16 @@
 ;;---------------------------------------------------------------------
 ;; smartparens
 ;;---------------------------------------------------------------------
-
 (require-package 'smartparens)
-(smartparens-mode +1)
-(global-set-key (kbd "C-d") 'sp-delete-char)
-(diminish 'smartparens-mode)
+(show-smartparens-global-mode 1)
+(add-hook 'prog-mode-hook 'smartparens-mode)
+(add-hook 'emacs-lisp-mode-hook 'smartparens-strict-mode)
+;; (add-hook 'prog-mode-hook (lambda ()
+;;                             (unless (derived-mode-p 'emacs-lisp-mode)
+;;                               (smartparens-mode))))
+;; (global-set-key (kbd "C-d") 'sp-delete-char)
+(with-eval-after-load 'smartparens-mode
+  (diminish 'smartparens-mode))
 
 (provide 'init-pares)
 ;;; init-paredit.el ends here

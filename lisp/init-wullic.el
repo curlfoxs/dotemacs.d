@@ -58,6 +58,7 @@
 (define-key wullic-mode-map (kbd "s-j s") 'exchange-point-and-mark)
 (define-key wullic-mode-map (kbd "s-j a") 'my-step-out-backward)
 (define-key wullic-mode-map (kbd "s-j e") 'my-step-out-forward)
+(define-key wullic-mode-map (kbd "s-;") 'avy-goto-char-timer)
 
 
 ;;; Jump symbol definitnion/references

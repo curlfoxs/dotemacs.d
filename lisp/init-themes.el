@@ -54,5 +54,6 @@
     (add-to-list 'dimmer-exclusion-predicates 'sanityinc/display-non-graphic-p)))
 
 
+(dark)
 (provide 'init-themes)
 ;;; init-themes.el ends here

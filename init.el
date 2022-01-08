@@ -1,21 +1,7 @@
 ;;; init.el --- Load the full configuration -*- lexical-binding: t -*-
 
 ;; Author: wullic
-
 ;; This file is not part of GNU Emacs.
-
-;; This file is free software; you can redistribute it and/or modify
-;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 3, or (at your option)
-;; any later version.
-
-;; This file is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; GNU General Public License for more details.
-
-;; You should have received a copy of the GNU General Public License
-;; along with this file.  If not, see <http://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 
@@ -44,8 +30,8 @@
 ;;---------------------------------------------------------------------
 ;; Load path
 ;;---------------------------------------------------------------------
-;; (setq load-prefer-newer t) ;; Always load newest byte code
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "site-lisp" user-emacs-directory))
 (require 'init-benchmarking) ;; Measure startup time and hack it
 (setq inhibit-startup-echo-area-message t)
 
@@ -79,6 +65,7 @@
 ;;---------------------------------------------------------------------
 (message "Loading magic modules ...")
 
+(setq byte-compile-warnings '(cl-functions)) ;; Ignore cl-lib warnings
 (require-package 'diminish)
 (maybe-require-package 'scratch)
 (require-package 'command-log-mode) ;; Amazing debug tool
@@ -99,11 +86,12 @@
 ;; (require 'init-sessions)
 (require 'init-mmm) ;; only one consistent buffer
 ;; (require 'init-editing-utils)
-(require 'init-editing-tools) ;; TODO multiple column mode
+(require 'init-pares)
 (require 'init-regions)
 (require 'init-whitespace)
+(require 'init-editing-tools) ;; TODO multiple column mode
 (require 'init-git)
-(require 'init-github)
+;; (require 'init-github)
 (require 'init-neotree) ;; file tree
 (require 'init-projectile)
 
@@ -115,7 +103,6 @@
 
 ;; (require 'init-org)
 ;; (require 'init-lsp)
-(require 'init-pares)
 (require 'init-emacs-lisp)
 (require 'init-python)
 (require 'init-yasnippet)

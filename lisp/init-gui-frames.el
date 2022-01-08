@@ -1,4 +1,6 @@
+;;---------------------------------------------------------------------
 ;; Window size and features
+;;---------------------------------------------------------------------
 (setq-default
  window-resize-pixelwise t
  frame-resize-pixelwise t)
@@ -14,14 +16,24 @@
   (add-to-list 'default-frame-alist no-border)
   (add-to-list 'initial-frame-alist no-border))
 
+;;---------------------------------------------------------------------
 ;; Modeline features
-;; (keycast-mode 1)
+;;---------------------------------------------------------------------
 (global-display-line-numbers-mode 1)
 (menu-bar--display-line-numbers-mode-relative)
 (display-time-mode 1)
+(require 'keycast)
+(keycast-mode 1)
+
+;;---------------------------------------------------------------------
+;; Close emacs welcome screen
+;;---------------------------------------------------------------------
+(setq inhibit-splash-screen t)         ; hide welcome screen
 
 
-;; Some advanced features
+;;---------------------------------------------------------------------
+;; Adjust oppacity
+;;---------------------------------------------------------------------
 (defun sanityinc/adjust-opacity (frame incr)
   "Adjust the background opacity of FRAME by increment INCR."
   (unless (display-graphic-p frame)
@@ -61,8 +73,9 @@
           (lambda ()
             (setq line-spacing 0)))
 
+;;---------------------------------------------------------------------
 ;; Change global font size easily
-
+;;---------------------------------------------------------------------
 (require-package 'default-text-scale)
 (add-hook 'after-init-hook 'default-text-scale-mode)
 
