@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: leetcode template
+# key: leetcode
+# --
+
+*** $0. $1
+Desc:
+$2
+
+Solu:
+#+BEGIN_SRC python
+$3
+#+END_SRC
