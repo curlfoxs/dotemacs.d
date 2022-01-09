@@ -17,5 +17,13 @@
 
 (add-hook 'after-make-console-frame-hooks 'sanityinc/console-frame-setup)
 
-(provide 'init-xterm)
+;;---------------------------------------------------------------------
+;; vterm
+;;---------------------------------------------------------------------
+(require-package 'vterm)
+(setq vterm-always-compile-module t)
+(setq vterm-max-scroll 10000)
+
+
+(provide 'init-term)
 ;;; init-xterm.el ends here

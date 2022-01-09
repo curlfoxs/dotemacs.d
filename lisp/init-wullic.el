@@ -53,6 +53,13 @@
     (other-window 1)
     (eshell)))
 
+(defun my-vterm ()
+  "Split window vertically and open eshell"
+  (interactive)
+  (let ((height (/ (window-total-height) 4)))
+    (split-window-vertically (- height))
+    (other-window 1)
+    (vterm)))
 ;;---------------------------------------------------------------------
 ;; Magit
 ;;---------------------------------------------------------------------
@@ -222,7 +229,7 @@
 
 
 ;;; Shell
-(global-set-key (kbd "C-x s") 'shell)
+(global-set-key (kbd "C-x s") 'my-vterm)
 ;; (global-set-key (kbd "C-q") 'set-mark-command)
 ;; (global-set-key (kbd "s-s") 'save-buffer)
 (global-set-key (kbd "C-x m") 'my-eshell)

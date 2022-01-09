@@ -1,0 +1,8 @@
+# -*- mode: shell-script-mode -*-
+# name: split-line
+# key: split
+# --
+##################
+## $1
+##################
+$2

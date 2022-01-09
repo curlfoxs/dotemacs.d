@@ -11,7 +11,7 @@
 
 ;; If you don't customize it, this is the theme you get.
 (setq-default custom-enabled-themes '(vscode-dark-plus))
-(set-frame-font "Hack-18" nil t) ;; TODO if not install this font?
+(set-frame-font "Iosevka Fixed-20" nil t) ;; TODO if not install this font?
 
 ;; Ensure that themes will be applied even if they have not been customized
 (defun reapply-themes ()

@@ -65,13 +65,12 @@
 ;;---------------------------------------------------------------------
 (message "Loading magic modules ...")
 
-(setq byte-compile-warnings '(cl-functions)) ;; Ignore cl-lib warnings
 (require-package 'diminish)
 (maybe-require-package 'scratch)
 (require-package 'command-log-mode) ;; Amazing debug tool
 
 (require 'init-frame-hooks)
-(require 'init-xterm)
+(require 'init-term) ; term emulator
 (require 'init-themes)
 (require 'init-gui-frames)
 ;; (require 'init-dired)

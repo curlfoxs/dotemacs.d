@@ -15,11 +15,13 @@
 ;;---------------------------------------------------------------------
 ;; highlight-current-line
 ;;---------------------------------------------------------------------
-(global-hl-line-mode +1)
+;; prog-mode and text-mode enable hl-line-mode, except vterm (it will blink)
+(add-hook 'prog-mode-hook (lambda () (hl-line-mode t)))
+(add-hook 'text-mode-hook (lambda () (hl-line-mode t)))
 
-(require-package 'volatile-highlights)
-(volatile-highlights-mode t)
-(diminish 'volatile-highlights-mode)
+(when (maybe-require-package 'volatile-highlights)
+  (volatile-highlights-mode t)
+  (diminish 'volatile-highlights-mode))
 
 ;;---------------------------------------------------------------------
 ;; highlight-parentheses
