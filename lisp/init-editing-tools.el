@@ -1,7 +1,14 @@
 (require-package 'ace-window)
 (require-package 'drag-stuff)
+
+;;---------------------------------------------------------------------
+;; which-key
+;;---------------------------------------------------------------------
 (require-package 'which-key)
 (which-key-mode 1)
+
+(with-eval-after-load 'which-key
+  (diminish 'which-key-mode))
 
 ;;---------------------------------------------------------------------
 ;; Delete-selection

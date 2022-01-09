@@ -2,6 +2,7 @@
 ;; Rainbow-mode
 ;;---------------------------------------------------------------------
 (when (maybe-require-package 'rainbow-mode)
+  (rainbow-mode t)
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
   (with-eval-after-load 'rainbow-delimiters-mode
     (diminish 'rainbow-delimiters-mode)))

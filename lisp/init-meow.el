@@ -88,6 +88,7 @@
 
 (with-eval-after-load 'meow
   (meow-setup)
-  (meow-global-mode 1))
+  (meow-global-mode 1)
+  (diminish 'meow-insert-mode))
 
 (provide 'init-meow)

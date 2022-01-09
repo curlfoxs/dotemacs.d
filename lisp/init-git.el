@@ -14,7 +14,7 @@
 
 
 ;;---------------------------------------------------------------------
-;; magit magic
+;; magit magic~
 ;;---------------------------------------------------------------------
 (when (maybe-require-package 'magit)
   (setq-default magit-diff-refine-hunk t)
@@ -96,17 +96,16 @@
     (compile (concat "git svn " command))))
 
 ;;---------------------------------------------------------------------
-;; diff-hl
+;; diff-hl Amazing~
 ;;---------------------------------------------------------------------
-(when (maybe-require-package 'diff-hl)
-  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
-  (add-hook 'after-init-hook 'global-diff-hl-mode)
-
-  (with-eval-after-load 'diff-hl
-    (define-key diff-hl-mode-map
-		(kbd "<left-fringe> <mouse-1>")
-		'diff-hl-diff-goto-hunk)))
-
+(require-package 'diff-hl)
+(global-diff-hl-mode +1)
+(add-hook 'dired-mode-hook 'diff-hl-dired-mode)
+(add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+(with-eval-after-load 'diff-hl
+  (define-key diff-hl-mode-map
+	      (kbd "<left-fringe> <mouse-1>")
+	      'diff-hl-diff-goto-hunk))
 (maybe-require-package 'browse-at-remote)
 
 (provide 'init-git)

@@ -99,18 +99,17 @@
 
 ;; my-query-prefix
 (defun my-query-replace-prefix ()
-    (interactive)
-    (minibuffer-with-setup-hook (lambda () (insert "query replace "))
-      (call-interactively #'execute-extended-command)))
-(define-key wullic-mode-map (kbd "s-i r") 'my-query-replace-prefix)
-
-;; my-projectile-prefix
-;; my-query-prefix
-(defun my-query-replace-prefix ()
   (interactive)
   (minibuffer-with-setup-hook (lambda () (insert "query replace "))
     (call-interactively #'execute-extended-command)))
 (define-key wullic-mode-map (kbd "s-i r") 'my-query-replace-prefix)
+
+;; my-projectile-prefix
+(defun my-projectile-prefix ()
+  (interactive)
+  (minibuffer-with-setup-hook (lambda () (insert "projectile "))
+    (call-interactively #'execute-extended-command)))
+(define-key wullic-mode-map (kbd "s-i p") 'my-projectile-prefix)
 
 ;; consult find
 (define-key wullic-mode-map (kbd "s-f") 'find-file)
@@ -174,7 +173,7 @@
 ;;; Help menu
 (global-unset-key (kbd "s-h"))
 (global-set-key (kbd "s-h") 'help-command)
-(global-set-key (kbd "C-h") 'sp-backward-delete-char)
+;; (global-set-key (kbd "C-h") 'sp-backward-delete-char)
 
 
 ;;; Highlight symbol

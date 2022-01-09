@@ -40,18 +40,18 @@
 ;;---------------------------------------------------------------------
 ;; Make C-x C-e run 'eval-region if the region is active
 
-(defun sanityinc/eval-last-sexp-or-region (prefix)
-  "Eval region from BEG to END if active, otherwise the last sexp."
-  (interactive "P")
-  (if (and (mark) (use-region-p))
-      (eval-region (min (point) (mark)) (max (point) (mark)))
-    (pp-eval-last-sexp prefix)))
+;; (defun sanityinc/eval-last-sexp-or-region (prefix)
+;;   "Eval region from BEG to END if active, otherwise the last sexp."
+;;   (interactive "P")
+;;   (if (and (mark) (use-region-p))
+;;       (eval-region (min (point) (mark)) (max (point) (mark)))
+;;     (pp-eval-last-sexp prefix)))
 
-(global-set-key [remap eval-expression] 'pp-eval-expression)
+;; (global-set-key [remap eval-expression] 'pp-eval-expression)
 
-(with-eval-after-load 'lisp-mode
-  (define-key emacs-lisp-mode-map (kbd "C-x C-e") 'sanityinc/eval-last-sexp-or-region)
-  (define-key emacs-lisp-mode-map (kbd "C-c C-e") 'pp-eval-expression))
+;; (with-eval-after-load 'lisp-mode
+;;   (define-key emacs-lisp-mode-map (kbd "C-x C-e") 'sanityinc/eval-last-sexp-or-region)
+;;   (define-key emacs-lisp-mode-map (kbd "C-c C-e") 'pp-eval-expression))
 
 ;;---------------------------------------------------------------------
 ;; Amazing useful function
@@ -174,9 +174,9 @@ there is no current file, eval the current buffer."
        " ")))))
 
 
-
+;;---------------------------------------------------------------------
 ;; Enable desired features for all lisp modes
-
+;;---------------------------------------------------------------------
 (defun sanityinc/enable-check-parens-on-save ()
   "Run `check-parens' when the current buffer is saved."
   (add-hook 'after-save-hook #'check-parens nil t))
@@ -207,23 +207,24 @@ there is no current file, eval the current buffer."
           '(lisp-mode inferior-lisp-mode lisp-interaction-mode))
   "All lispy major modes.")
 
-(require 'derived)
+;; (require 'derived)
 
-(dolist (hook (mapcar #'derived-mode-hook-name sanityinc/lispy-modes))
-  (add-hook hook 'sanityinc/lisp-setup))
+;; (dolist (hook (mapcar #'derived-mode-hook-name sanityinc/lispy-modes))
+;;   (add-hook hook 'sanityinc/lisp-setup))
 
-(dolist (hook (mapcar #'derived-mode-hook-name sanityinc/elispy-modes))
-  (add-hook hook 'sanityinc/emacs-lisp-setup))
+;; (dolist (hook (mapcar #'derived-mode-hook-name sanityinc/elispy-modes))
+;;   (add-hook hook 'sanityinc/emacs-lisp-setup))
 
 (when (boundp 'eval-expression-minibuffer-setup-hook)
   (add-hook 'eval-expression-minibuffer-setup-hook #'eldoc-mode))
 
-(add-to-list 'auto-mode-alist '("\\.emacs-project\\'" . emacs-lisp-mode))
-(add-to-list 'auto-mode-alist '("archive-contents\\'" . emacs-lisp-mode))
+;; (add-to-list 'auto-mode-alist '("\\.emacs-project\\'" . emacs-lisp-mode))
+;; (add-to-list 'auto-mode-alist '("archive-contents\\'" . emacs-lisp-mode))
 
 
-
+;;---------------------------------------------------------------------
 ;; Delete .elc files when reverting the .el from VC or magit
+;;---------------------------------------------------------------------
 
 ;; When .el files are open, we can intercept when they are modified
 ;; by VC or magit in order to remove .elc files that are likely to
@@ -256,35 +257,24 @@ there is no current file, eval the current buffer."
 (advice-add 'vc-revert-buffer-internal :around 'sanityinc/reverting)
 
 
-
 (require-package 'macrostep)
 
+;;---------------------------------------------------------------------
+;; Amazing macrostep-expand
+;;---------------------------------------------------------------------
 (with-eval-after-load 'lisp-mode
   (define-key emacs-lisp-mode-map (kbd "C-c x") 'macrostep-expand))
 
-
-
+;;---------------------------------------------------------------------
+;; Amazing C-h K!
+;;---------------------------------------------------------------------
 ;; A quick way to jump to the definition of a function given its key binding
 (global-set-key (kbd "C-h K") 'find-function-on-key)
 
-
-
-;; Extras for theme editing
-(when (maybe-require-package 'rainbow-mode)
-  (defun sanityinc/enable-rainbow-mode-if-theme ()
-    (when (and (buffer-file-name) (string-match-p "\\(color-theme-\\|-theme\\.el\\)" (buffer-file-name)))
-      (rainbow-mode)))
-  (add-hook 'emacs-lisp-mode-hook 'sanityinc/enable-rainbow-mode-if-theme)
-  (add-hook 'help-mode-hook 'rainbow-mode)
-  (with-eval-after-load 'rainbow-mode
-    (diminish 'rainbow-mode)))
-
-
 
 (when (maybe-require-package 'highlight-quoted)
   (add-hook 'emacs-lisp-mode-hook 'highlight-quoted-mode))
 
-
 (when (maybe-require-package 'flycheck)
   (require-package 'flycheck-package)
   (with-eval-after-load 'flycheck
@@ -292,18 +282,14 @@ there is no current file, eval the current buffer."
       (flycheck-package-setup))))
 
 
-
 ;; ERT
 (with-eval-after-load 'ert
   (define-key ert-results-mode-map (kbd "g") 'ert-results-rerun-all-tests))
 
-
-(maybe-require-package 'cl-libify)
+;; (maybe-require-package 'cl-libify)
 
-
 (maybe-require-package 'flycheck-relint)
 
-
 
 (maybe-require-package 'cask-mode)
 

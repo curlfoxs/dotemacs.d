@@ -86,7 +86,7 @@
 ;; (require 'init-sessions)
 (require 'init-mmm) ;; only one consistent buffer
 ;; (require 'init-editing-utils)
-(require 'init-pares)
+(require 'init-parens)
 (require 'init-regions)
 (require 'init-whitespace)
 (require 'init-editing-tools) ;; TODO multiple column mode
