@@ -1,3 +1,7 @@
+;;; init-embark.el --- Insert description here -*- lexical-binding: t -*-
+;;; Commentary:
+;;; Code:
+
 (require-package 'embark)
 ;;---------------------------------------------------------------------
 ;; Marginalia basic config
@@ -157,3 +161,4 @@
 
 
 (provide 'init-embark)
+;;; init-embark.el ends here

@@ -1,3 +1,7 @@
+;;; init-meow.el --- Insert description here -*- lexical-binding: t -*-
+;;; Commentary:
+;;; Code:
+
 (require-package 'meow)
 (maybe-require-package 'avy)
 
@@ -88,7 +92,7 @@
 
 (with-eval-after-load 'meow
   (meow-setup)
-  (meow-global-mode 1)
-  (diminish 'meow-insert-mode))
+  (meow-global-mode 1))
 
 (provide 'init-meow)
+;;; init-meow.el ends here

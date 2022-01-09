@@ -1,3 +1,7 @@
+;;; init-consult.el --- Insert description here -*- lexical-binding: t -*-
+;;; Commentary:
+;;; Code:
+
 (require-package 'consult)
 (maybe-require-package 'marginalia)
 
@@ -65,3 +69,4 @@
 ;; (require-package 'consult-company)
 
 (provide 'init-consult)
+;;; init-consult.el ends here

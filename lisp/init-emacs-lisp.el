@@ -218,6 +218,9 @@ there is no current file, eval the current buffer."
 (when (boundp 'eval-expression-minibuffer-setup-hook)
   (add-hook 'eval-expression-minibuffer-setup-hook #'eldoc-mode))
 
+(with-eval-after-load 'eldoc
+  (diminish 'eldoc-mode))
+
 ;; (add-to-list 'auto-mode-alist '("\\.emacs-project\\'" . emacs-lisp-mode))
 ;; (add-to-list 'auto-mode-alist '("archive-contents\\'" . emacs-lisp-mode))
 

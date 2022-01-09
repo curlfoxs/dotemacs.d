@@ -1,3 +1,7 @@
+;;; init-lsp.el --- Insert description here -*- lexical-binding: t -*-
+;;; Commentary:
+;;; Code:
+
 (use-package lsp-mode)
 (use-package lsp-ui)
 
@@ -44,3 +48,4 @@
 
 
 (provide 'init-lsp)
+;;; init-lsp.el ends here

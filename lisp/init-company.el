@@ -1,3 +1,7 @@
+;;; init-company.el --- Insert description here -*- lexical-binding: t -*-
+;;; Commentary:
+;;; Code:
+
 
 ;;---------------------------------------------------------------------
 ;; Basic config
@@ -78,3 +82,4 @@ inserted."
 (global-company-mode 1)
 
 (provide 'init-company)
+;;; init-company.el ends here

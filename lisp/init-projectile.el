@@ -6,7 +6,7 @@
   (add-hook 'after-init-hook 'projectile-mode)
 
   ;; Shorter modeline
-  (setq-default projectile-mode-line-prefix " Proj")
+  (setq-default projectile-mode-line-prefix " P")
 
   (when (executable-find "rg")
     (setq-default projectile-generic-command "rg --files --hidden"))

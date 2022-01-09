@@ -1,10 +1,21 @@
-;;; helper function
+;;; init-wullic.el --- Insert description here -*- lexical-binding: t -*-
+;;; Commentary:
+;;; Code:
+
+
 ;;; Parens matching
+;;---------------------------------------------------------------------
+;; minor mode definition
+;;---------------------------------------------------------------------
 
 (defvar wullic-mode-map
   (let ((map (make-sparse-keymap)))
     map)
   "Keymap for wullic mode.")
+
+;;---------------------------------------------------------------------
+;; ;;; helper function
+;;---------------------------------------------------------------------
 
 (defun my-step-out-forward ()
   "Step forward out of current list or string."
@@ -42,13 +53,20 @@
     (other-window 1)
     (eshell)))
 
-;;; Magit
+;;---------------------------------------------------------------------
+;; Magit
+;;---------------------------------------------------------------------
+
 (define-key wullic-mode-map (kbd "s-m m") 'magit-status)
 (define-key wullic-mode-map (kbd "s-m j") 'magit-dispatch)
 (define-key wullic-mode-map (kbd "s-m k") 'magit-file-dispatch)
 (define-key wullic-mode-map (kbd "s-m l") 'magit-log-buffer-file)
 (define-key wullic-mode-map (kbd "s-m b") 'magit-blame)
-;;; avy
+
+;;---------------------------------------------------------------------
+;; Avy & Jump
+;;---------------------------------------------------------------------
+
 (define-key wullic-mode-map (kbd "s-j") nil)
 (define-key wullic-mode-map (kbd "s-j m") 'bookmark-set)
 (define-key wullic-mode-map (kbd "s-j b") 'bookmark-jump)
@@ -66,13 +84,19 @@
 (define-key wullic-mode-map (kbd "s-j e") 'my-step-out-forward)
 (define-key wullic-mode-map (kbd "s-;") 'avy-goto-char-timer)
 
+;;---------------------------------------------------------------------
+;; Definition & Referencees
+;;---------------------------------------------------------------------
 
-;;; Jump symbol definitnion/references
+;;; Jump symbol definition/references
 ;; (define-key wullic-mode-map (kbd "s-d") nil)
 ;; (define-key wullic-mode-map (kbd "s-d d") 'lsp-find-definition)
 ;; (define-key wullic-mode-map (kbd "s-d r") 'lsp-find-references)
 
 
+;;---------------------------------------------------------------------
+;; FSA
+;;---------------------------------------------------------------------
 ;;; Filter/Select/Action
 ;; search
 (define-key wullic-mode-map (kbd "s-i i") 'consult-isearch-forward)
@@ -83,6 +107,13 @@
 (define-key wullic-mode-map (kbd "s-i k") 'consult-ripgrep)
 (define-key wullic-mode-map (kbd "s-i l") 'consult-locate)
 (define-key wullic-mode-map (kbd "s-i h") 'consult-history)
+;; consult find
+(define-key wullic-mode-map (kbd "s-f") 'find-file)
+(define-key wullic-mode-map (kbd "s-r") 'consult-recent-file)
+;;---------------------------------------------------------------------
+;; Common command prefix
+;;---------------------------------------------------------------------
+
 ;; my-consult-prefix
 (defun my-consult-prefix ()
   (interactive)
@@ -111,12 +142,10 @@
     (call-interactively #'execute-extended-command)))
 (define-key wullic-mode-map (kbd "s-i p") 'my-projectile-prefix)
 
-;; consult find
-(define-key wullic-mode-map (kbd "s-f") 'find-file)
-(define-key wullic-mode-map (kbd "s-r") 'consult-recent-file)
 
-
-;;; Basic
+;;---------------------------------------------------------------------
+;; Basic Config, EDit, Config
+;;---------------------------------------------------------------------
 ;; (define-key wullic-mode-map (kbd "C-<return>") 'toggle-frame-fullscreen)
 ;;; Edit skill & Cursor control
 ;; meow-mode
@@ -169,6 +198,9 @@
 (global-set-key (kbd "s-<left>") 'previous-buffer)
 (global-set-key (kbd "s-<right>") 'next-buffer)
 
+;;---------------------------------------------------------------------
+;; Help
+;;---------------------------------------------------------------------
 
 ;;; Help menu
 (global-unset-key (kbd "s-h"))
@@ -206,3 +238,4 @@
 (wullic-mode 1)
 
 (provide 'init-wullic)
+;;; init-wullic.el ends here

@@ -1,3 +1,7 @@
+;;; init-vertico.el --- Insert description here -*- lexical-binding: t -*-
+;;; Commentary:
+;;; Code:
+
 (require-package 'vertico)
 (require-package 'savehist)
 (require-package 'emacs)
@@ -242,3 +246,4 @@
   )
 
 (provide 'init-vertico)
+;;; init-vertico.el ends here
