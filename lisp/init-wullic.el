@@ -106,8 +106,8 @@
 ;;---------------------------------------------------------------------
 ;;; Filter/Select/Action
 ;; search
-(define-key wullic-mode-map (kbd "s-i i") 'consult-isearch-forward)
-(define-key wullic-mode-map (kbd "s-i s") 'consult-isearch-backward)
+(define-key wullic-mode-map (kbd "s-i i") 'consult-imenu)
+(define-key key-translation-map (kbd "s-i p") (kbd "C-c p"))
 (define-key wullic-mode-map (kbd "s-i g") 'rgrep)
 (define-key wullic-mode-map (kbd "s-i f") 'consult-find)
 (define-key wullic-mode-map (kbd "s-i j") 'consult-git-grep)
@@ -160,6 +160,7 @@
 (define-key input-decode-map (kbd "C-i") (kbd "H-i"))
 (define-key key-translation-map (kbd "H-i") (kbd "<escape>"))
 ;; (define-key wullic-mode-map (kbd "s-k") 'crux-kill-whole-line)
+(define-key wullic-mode-map (kbd "C-a") 'back-to-indentation)
 (define-key wullic-mode-map (kbd "s-w") 'ace-window)
 (global-set-key (kbd "s-e") 'er/expand-region)
 (define-key wullic-mode-map (kbd "C-j") 'join-line)
@@ -182,7 +183,7 @@
 (define-key wullic-mode-map (kbd "s-u k") 'kill-buffer)
 (define-key wullic-mode-map (kbd "s-u i") 'ibuffer)
 (define-key wullic-mode-map (kbd "s-u u") 'consult-buffer)
-(define-key wullic-mode-map (kbd "s-u I") 'projectile-ibuffer)
+(define-key wullic-mode-map (kbd "s-u U") 'projectile-ibuffer)
 ;; window conrtorl
 ;; (define-key wullic-mode-map (kbd "s-u s") 'crux-swap-windows)
 (define-key wullic-mode-map (kbd "s-u 1") 'delete-other-windows)

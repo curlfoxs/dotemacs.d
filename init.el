@@ -104,6 +104,7 @@
 ;; (require 'init-lsp)
 (require 'init-emacs-lisp)
 (require 'init-python)
+;; (require 'init-c)
 (require 'init-yasnippet)
 
 (require 'init-folding)

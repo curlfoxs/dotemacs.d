@@ -54,10 +54,14 @@
 (setq sp-autoskip-closing-pair 'always)
 (sp-use-paredit-bindings)
 (show-smartparens-global-mode +1)
-(add-hook 'prog-mode-hook (lambda () (unless (derived-mode-p 'emacs-lisp-mode)
-				       (smartparens-mode))))
-(add-hook 'emacs-lisp-mode-hook (lambda () (smartparens-strict-mode)))
+;; (add-hook 'prog-mode-hook (lambda () (unless (derived-mode-p 'emacs-lisp-mode)
+				       ;; (smartparens-mode))))
+;; I like smartparens strict mode, you could use above line
+(add-hook 'prog-mode-hook (lambda () (smartparens-strict-mode)))
 
+;; Smartparnes's M-? littile use, remain keymap to others
+(with-eval-after-load 'smartparens
+  (define-key smartparens-mode-map (kbd "M-?") nil))
 
 (provide 'init-parens)
 ;;; init-paredit.el ends here

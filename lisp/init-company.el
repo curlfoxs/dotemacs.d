@@ -76,7 +76,7 @@ inserted."
 ;; company-yasnippet as 1'st backend
 ;; actually company-capf work?
 (setq company-backends '((:separate company-yasnippet company-capf)))
-
+(setq company-dabbrev-other-buffers nil)
 ;; company-transformers to sorted?
 
 (global-company-mode 1)

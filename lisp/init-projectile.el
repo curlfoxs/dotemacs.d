@@ -5,16 +5,26 @@
 (when (maybe-require-package 'projectile)
   (add-hook 'after-init-hook 'projectile-mode)
 
-  ;; Shorter modeline
-  (setq-default projectile-mode-line-prefix " P")
+;;---------------------------------------------------------------------
+;; Customize modeline
+;;---------------------------------------------------------------------
+(setq-default projectile-mode-line-prefix " P")
+(defun wullic/projectile-mode-line ()
+  "Report project name and type in the modeline."
+  (let ((project-name (projectile-project-name)))
+    (format "%s[%s]"
+	    projectile-mode-line-prefix
+	    project-name)))
 
-  (when (executable-find "rg")
-    (setq-default projectile-generic-command "rg --files --hidden"))
+(setq projectile-mode-line-function 'wullic/projectile-mode-line)
 
-  (with-eval-after-load 'projectile
-    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+(when (executable-find "rg")
+  (setq-default projectile-generic-command "rg --files --hidden"))
 
-  (maybe-require-package 'ibuffer-projectile))
+(with-eval-after-load 'projectile
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+
+(maybe-require-package 'ibuffer-projectile))
 
 
 (provide 'init-projectile)

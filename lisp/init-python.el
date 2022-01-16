@@ -22,7 +22,9 @@
     ;; by default we enable it only when working locally.
     (add-hook 'python-mode-hook
               (lambda () (unless (file-remote-p default-directory)
-                           (anaconda-mode 1))))
+                           (anaconda-mode 1)
+                           ;; Make sure keymap effects
+                           (local-set-key (kbd "s-h") 'anaconda-mode-show-doc))))
     (add-hook 'anaconda-mode-hook
               (lambda ()
                 (anaconda-eldoc-mode (if anaconda-mode 1 0)))))
@@ -33,11 +35,29 @@
       (with-eval-after-load 'python
         (add-to-list 'company-backends 'company-anaconda)))))
 
+
+
 (when (maybe-require-package 'toml-mode)
   (add-to-list 'auto-mode-alist '("poetry\\.lock\\'" . toml-mode)))
 
 (when (maybe-require-package 'reformatter)
   (reformatter-define black :program "black" :args '("-")))
+
+;;---------------------------------------------------------------------
+;; Close python -- need readline() python2
+;;---------------------------------------------------------------------
+(setq python-shell-completion-native-enable nil)
+
+;;---------------------------------------------------------------------
+;; Close annoying eval-python-buffer company candidate 
+;;---------------------------------------------------------------------
+(add-hook 'python-mode-hook
+                 (lambda ()
+                    (setq-local completion-at-point-functions nil)))
+(add-hook 'inferior-python-mode-hook
+                 (lambda ()
+                    (setq-local completion-at-point-functions nil)))
+;; (setq python-shell-completion-at-point nil)
 
 (provide 'init-python)
 ;;; init-python.el ends here

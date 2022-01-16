@@ -6,6 +6,81 @@
 (maybe-require-package 'avy)
 
 (require 'meow) ;; why need require again?
+
+(defun wullic/meow--fix-word-selection-mark (pos mark)
+  "Return new mark for a word select.
+This will shrink the word selection only contains
+ word/symbol constituent character and whitespaces."
+  (save-mark-and-excursion
+    (goto-char pos)
+    (if (> mark pos)
+	(progn (skip-syntax-forward "w" mark) ;; Just select a word
+	       (point))
+      (skip-syntax-backward "w" mark)
+      (point))))
+
+(defun wullic/meow-append-line ()
+  (interactive)
+  (end-of-line)
+  (meow-insert))
+
+(defun wullic/meow-insert-line ()
+  (interactive)
+  (back-to-indentation)
+  (meow-insert))
+
+(defun wullic/meow-append ()
+  "Move to the end of selection, switch to INSERT state."
+  (interactive)
+  (if meow--temp-normal
+      (progn
+	(meow--switch-state 'motion))
+    (if (not (region-active-p))
+	(progn
+	  (forward-char 1)
+	  (meow-insert))
+	;; (when (and meow-use-cursor-position-hack
+	;;	   (< (point) (point-max)))
+	;;   (forward-char 1))
+      (meow--direction-forward)
+      (meow--cancel-selection))
+    (meow--switch-state 'insert)))
+
+(defun wullic/meow-next-word (n)
+  (interactive "p")
+  (unless (equal 'word (cdr (meow--selection-type)))
+    (meow--cancel-selection))
+  (let* ((expand (equal '(expand . word) (meow--selection-type)))
+
+	 (_ (when expand (meow--direction-forward)))
+	 (type (if expand '(expand . word) '(select . word)))
+	 (m (point))
+	 (p (save-mark-and-excursion
+	      (when (forward-word n)
+		(point)))))
+    (when p
+      (thread-first
+	(meow--make-selection type (wullic/meow--fix-word-selection-mark p m) p expand)
+	(meow--select))
+      )))
+
+(defun wullic/meow-back-word (n)
+  (interactive "p")
+  (unless (equal 'word (cdr (meow--selection-type)))
+    (meow--cancel-selection))
+  (let* ((expand (equal '(expand . word) (meow--selection-type)))
+	 (_ (when expand (meow--direction-backward)))
+	 (type (if expand '(expand . word) '(select . word)))
+	 (m (point))
+	 (p (save-mark-and-excursion
+	      (when (backward-word n)
+		(point)))))
+    (when p
+      (thread-first
+	(meow--make-selection type (meow--fix-word-selection-mark p m) p expand)
+	(meow--select))
+      )))
+
 (defun meow-setup ()
   (setq meow-cheatsheet-layout meow-cheatsheet-layout-dvp)
   (meow-leader-define-key
@@ -41,10 +116,10 @@
    '("." . meow-inner-of-thing)
    '("<" . meow-beginning-of-thing)
    '(">" . meow-end-of-thing)
-   '("a" . meow-append)
+   '("a" . wullic/meow-append)
    ;; '("a" . crux-move-beginning-of-line)
 
-   '("A" . meow-open-below)
+   '("A" . wullic/meow-append-line)
    '("b" . meow-beginning-of-thing)
    '("B" . meow-back-symbol)
    '("c" . meow-change)
@@ -59,11 +134,11 @@
    '("h" . sp-backward-delete-char)
    '("H" . meow-left-expand)
    '("i" . meow-insert)
-   '("I" . meow-open-above)
+   '("I" . wullic/meow-insert-line)
    ;; '("j" . meow-find)
-   '("j" . forward-char)
+   '("j" . meow-right)
    '("k" . meow-kill)
-   '("l" . backward-char)
+   '("l" . meow-left)
    '("m" . meow-mark-word)
    '("M" . meow-mark-symbol)
    '("n" . meow-next)
@@ -73,7 +148,7 @@
    '("p" . meow-prev)
    '("P" . meow-prev-expand)
    '("q" . meow-quit)
-   '("r" . meow-back-word)
+   '("r" . wullic/meow-back-word)
    '("R" . meow-swap-grab)
    '("s" . meow-search)
    '("t" . meow-end-of-thing)
@@ -81,7 +156,7 @@
    '("u" . meow-undo)
    '("U" . meow-undo-in-selection)
    '("v" . meow-visit)
-   '("w" . meow-next-word)
+   '("w" . wullic/meow-next-word)
    '("W" . meow-next-symbol)
    '("x" . save-buffer)
    '("X" . meow-sync-grab)
@@ -92,7 +167,9 @@
 
 (with-eval-after-load 'meow
   (meow-setup)
-  (meow-global-mode 1))
-
+  (meow-global-mode 1)
+)
+;; (add-hook 'prog-mode-hook (lambda () (meow-setup)
+			    ;; (meow-global-mode t)))
 (provide 'init-meow)
 ;;; init-meow.el ends here

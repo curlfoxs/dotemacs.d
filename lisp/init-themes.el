@@ -11,7 +11,7 @@
 
 ;; If you don't customize it, this is the theme you get.
 (setq-default custom-enabled-themes '(vscode-dark-plus))
-(set-frame-font "Iosevka Fixed-20" nil t) ;; TODO if not install this font?
+(set-frame-font "Iosevka Fixed-18" nil t) ;; TODO if not install this font?
 
 ;; Ensure that themes will be applied even if they have not been customized
 (defun reapply-themes ()
@@ -54,6 +54,6 @@
     (add-to-list 'dimmer-exclusion-predicates 'sanityinc/display-non-graphic-p)))
 
 
-(dark)
+;; (load-theme 'vscode-dark-plus)
 (provide 'init-themes)
 ;;; init-themes.el ends here

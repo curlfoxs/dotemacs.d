@@ -1,0 +1,16 @@
+# -*- mode: python -*-
+# name: docs_def
+# key: docs_def
+# --
+'''We can't travel distance in vehicles without fuels, so here is the fuels
+
+Args:
+    distance (int): The amount of distance traveled
+    destination (bool): Should the fuels refilled to cover the distance?
+
+Raises:
+    RuntimeError: Out of fuel
+
+Returns:
+    cars: A car mileage
+'''
