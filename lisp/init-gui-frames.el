@@ -30,7 +30,6 @@
 ;; (require 'keycast)
 ;; (keycast-mode 1)
 ;; Mode line setup
-;; (require-package 'nyan-mode)
 
 ;; (setq default-modeline-format
 ;;         (list
@@ -94,9 +93,7 @@
    (:propertize mode-line-process
                 face mode-line-process-face)
    (global-mode-string global-mode-string)
-   "    "
-   ; nyan-mode uses nyan cat as an alternative to %p
-   (:eval (when nyan-mode (list (nyan-create))))
+   
    "     "
    (:eval (format-time-string "%m-%d %H:%M"))
    ))  )

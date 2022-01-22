@@ -56,8 +56,8 @@
 (defun my-vterm ()
   "Split window vertically and open eshell"
   (interactive)
-  (let ((height (/ (window-total-height) 4)))
-    (split-window-vertically (- height))
+  (let ((height (/ (window-total-width) 3)))
+    (split-window-horizontally (- height))
     (other-window 1)
     (vterm)))
 ;;---------------------------------------------------------------------
@@ -193,8 +193,10 @@
 ;; workgroups2
 (define-key wullic-mode-map (kbd "s-u w c") 'wg-create-workgroup)
 (define-key wullic-mode-map (kbd "s-u w o") 'wg-open-workgroup)
-
 (define-key wullic-mode-map (kbd "s-u w k") 'wg-kill-workgroup)
+;; tabbar
+(define-key wullic-mode-map (kbd "s-u t") 'my-select-tab-by-name)
+
 (define-key wullic-mode-map (kbd "s-p") 'previous-buffer)
 (define-key wullic-mode-map (kbd "s-n") 'next-buffer)
 (define-key wullic-mode-map (kbd "s-k") 'kill-whole-line)

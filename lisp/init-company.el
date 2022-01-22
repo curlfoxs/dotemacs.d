@@ -4,13 +4,17 @@
 
 
 ;;---------------------------------------------------------------------
-;; Basic config
+;; Orderless
 ;;---------------------------------------------------------------------
 (when (maybe-require-package 'orderless)
   (setq completion-styles '(orderless)
       completion-category-defaults nil
       completion-category-overrides '((file (styles partial-completion))))
       )
+
+;;---------------------------------------------------------------------
+;; Basic config
+;;---------------------------------------------------------------------
 
 (when (maybe-require-package 'company)
   (setq company-idle-delay 0.2)
@@ -41,6 +45,9 @@ inserted."
       (when company-candidates
         (setq this-command 'company-complete-common)))))
 
+;;---------------------------------------------------------------------
+;; Config
+;;---------------------------------------------------------------------
 
 (with-eval-after-load 'company
   (diminish 'company-mode)
@@ -55,7 +62,9 @@ inserted."
   (setq-default company-dabbrev-other-buffers 'all
                 company-tooltip-align-annotations t))
 
+;;---------------------------------------------------------------------
 ;; Company completion-styles always inorder
+;;---------------------------------------------------------------------
 (add-hook 'company-completion-started-hook
           (lambda (&rest ignore)
             (setq completion-styles
@@ -65,7 +74,9 @@ inserted."
           (lambda (&rest ignore)
             (setq completion-styles '(orderless))))
 
+;;---------------------------------------------------------------------
 ;; Config different backend in different mode
+;;---------------------------------------------------------------------
 (defun my-text-mode-company ()
   (when (boundp 'company-backends)
     (make-local-variable 'company-backends)
@@ -73,10 +84,19 @@ inserted."
     (add-to-list 'company-backends 'company-ispell)))
 (add-hook 'text-mode-hook #'my-text-mode-company)
 
+;;---------------------------------------------------------------------
+;; Universal company
+;;---------------------------------------------------------------------
 ;; company-yasnippet as 1'st backend
 ;; actually company-capf work?
-(setq company-backends '((:separate company-yasnippet company-capf)))
-(setq company-dabbrev-other-buffers nil)
+;; (setq company-backends '((:separate company-yasnippet company-capf company-files)))
+;; (setq company-backends '((:separate company-yasnippet company-capf company-files company-clang company-dabbrev )))
+;; (setq company-dabbrev-other-buffers nil)
+
+;;---------------------------------------------------------------------
+;; Company-transformer ?
+;;---------------------------------------------------------------------
+
 ;; company-transformers to sorted?
 
 (global-company-mode 1)

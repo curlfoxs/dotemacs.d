@@ -3,6 +3,7 @@
 ;;; Code:
 
 (require-package 'embark)
+(require 'embark)
 ;;---------------------------------------------------------------------
 ;; Marginalia basic config
 ;;---------------------------------------------------------------------
@@ -27,6 +28,30 @@
 ;; ("C-." . embark-act)         ;; pick some comfortable binding
 ;; ("s-;" . embark-dwim)        ;; good alternative: M-.
 ;; ("C-h B" . embark-bindings) ;; alternative for `describe-bindings'
+
+;;---------------------------------------------------------------------
+;; Embark Customize -- tabbar
+;;---------------------------------------------------------------------
+(add-to-list 'marginalia-prompt-categories '("tab by name" . tab))
+(defun my-select-tab-by-name (tab)
+  (interactive
+   (list
+    (let ((tab-list (or (mapcar (lambda (tab) (cdr (assq 'name tab)))
+				(tab-bar-tabs))
+			(user-error "No tabs found"))))
+      (consult--read tab-list
+		     :prompt "Tabs: "
+		     :category 'tab))))
+  (tab-bar-select-tab-by-name tab))
+
+(embark-define-keymap embark-tab-actions
+  "Keymap for actions for tab-bar tabs (when mentioned by name)."
+  ("s" tab-bar-select-tab-by-name)
+  ("r" tab-bar-rename-tab-by-name)
+  ("k" tab-bar-close-tab-by-name))
+
+(add-to-list 'embark-keymap-alist '(tab . embark-tab-actions))
+
 
 ;;---------------------------------------------------------------------
 ;; Embark amazing wiki codes

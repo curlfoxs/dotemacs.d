@@ -80,7 +80,7 @@
 ;; (require 'init-flyspell)
 (require 'init-recentf)
 ;; (require 'init-minibuffer)
-;; (require 'init-tabbar)
+(require 'init-tabbar)
 ;; (require 'init-windows)
 ;; (require 'init-sessions)
 (require 'init-mmm) ;; only one consistent buffer
@@ -100,11 +100,13 @@
 (require 'init-embark)
 (require 'init-company)
 
-;; (require 'init-org)
+(require 'init-org)
+;; (require 'init-org-roam)
 ;; (require 'init-lsp)
 (require 'init-emacs-lisp)
 (require 'init-python)
 ;; (require 'init-c)
+(require 'init-c-lsp)
 (require 'init-yasnippet)
 
 (require 'init-folding)

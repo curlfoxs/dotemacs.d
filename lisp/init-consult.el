@@ -63,7 +63,7 @@
   )
 
 (require-package 'consult-dir)
-(require-package 'consult-lsp)
+;; (require-package 'consult-lsp)
 (require-package 'consult-yasnippet)
 (require-package 'consult-projectile)
 ;; (require-package 'consult-company)
