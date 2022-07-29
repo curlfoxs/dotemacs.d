@@ -237,6 +237,7 @@
 
 ;;; undo-Redo
 ;; C-c <left>, C-c <right>
+(setq undo-limit undo-strong-limit)
 (global-set-key (kbd "C-/") 'undo)
 (global-set-key (kbd "C-r") 'undo-redo)
 

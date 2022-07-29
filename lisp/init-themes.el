@@ -7,8 +7,8 @@
 ;;---------------------------------------------------------------------
 ;; If you don't customize it, this is the theme you get.
 (setq-default custom-enabled-themes '(modus-vivendi))
-(set-frame-font "Iosevka Fixed-16" nil t) ;; TODO if not install this font?
-
+;; (set-frame-font "Iosevka Fixed-16" nil t) ;; TODO if not install this font?
+;; (add-to-list 'default-frame-alist '(font . "Iosevka Fixed-16"))
 ;;---------------------------------------------------------------------
 ;; Theme
 ;;---------------------------------------------------------------------
