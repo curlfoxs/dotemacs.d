@@ -26,7 +26,8 @@
 ;;---------------------------------------------------------------------
 ;; PDF tools
 ;;---------------------------------------------------------------------
-(pdf-tools-install)
+;; (maybe-require-package 'pdf-tools)
+;; (pdf-tools-install)
 
 (provide 'init-browser)
 ;;; init-browser.el ends here
