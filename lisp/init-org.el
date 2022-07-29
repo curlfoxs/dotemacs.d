@@ -56,12 +56,12 @@
 ;; agenda
 ;;---------------------------------------------------------------------
 ;; Agenda files
-;; (setq org-directory "~/org")
-(setq org-default-notes-file  "~/org/inbox.org")
+(setq wullic-org-directory "~/org")
+(setq org-default-notes-file  (expand-file-name "inbox.org" wullic-org-directory))
 ;; (setq org-agenda-files (list "~/org/computer.org"
 ;; 			     "~/org/inbox.org"
 ;;                              "~/org/todo.org"))
-(setq org-agenda-files (quote ("~/org")))
+(setq org-agenda-files (list wullic-org-directory))
 
 ;; Keybindings
 (define-key global-map (kbd "C-c l") 'org-store-link)
@@ -339,22 +339,6 @@
 ;; org roam config
 ;;---------------------------------------------------------------------
 (require 'init-org-roam)
-(setq org-roam-capture-templates
-      '(("d" "default" plain
-	 "%?"
-	 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n\n* tags ::      :noexport:\n")
-	 :unnarrowed t)
-	("l" "programming language" plain
- "* Characteristics\n\n- Family: %?\n- Inspired by: \n\n* Reference:\n\n"
- :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n\n* tags ::      :noexport:\n")
- :unnarrowed t)
-	("b" "book notes" plain
- "\n* Source\n\nAuthor: %^{Author}\nTitle: ${title}\nYear: %^{Year}\n\n* Summary\n\n%?"
- :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n\n* tags ::      :noexport:\n")
- :unnarrowed t)
-	("p" "project" plain "* tags ::      :noexport:\n\n* Goals\n\n%?\n\n* Tasks\n\n** PROJECT Tasks \n\n** TODO Add initial tasks\n\n* Dates\n\n* Notes\n\n"
- :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: Project\n\n")
- :unnarrowed t)))
 
 ;;---------------------------------------------------------------------
 ;; Org Pomotoro clock

@@ -8,7 +8,7 @@
   :init
   (setq org-roam-v2-ack t)
   :custom
-  (org-roam-directory "~/org/roam/")
+  (org-roam-directory (expand-file-name "roam" wullic-org-directory))
   (org-roam-completion-everywhere t)
   :bind (("C-c n l" . org-roam-buffer-toggle)
 	 ("C-c n f" . org-roam-node-find)
@@ -34,20 +34,30 @@
 		  (window-width . 0.33)
 		  (window-height . fit-window-to-buffer))))
   (setq org-roam-capture-templates
-	'(("d" "default" plain "%?"
-	   :immediate-finish t
-	   :if-new (file+head "${slug}.org"
-			      "#+TITLE: ${title}\n#+hugo_lastmod: Time-stamp: <>\n\n")
-	   :unnarrowed t)
-	  ("t" "temp" plain "%?"
-	   :if-new(file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-			     "#+TITLE: ${title}\n#+hugo_lastmod: Time-stamp: <>\n\n")
-	   :immediate-finish t
-	   :unnarrowed t)
-	  ("p" "project" plain "* Goals\n\n%?\n\n* Tasks\n\n** TODO Add initial tasks\n\n* Dates\n\n"
-	   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+category: ${title}\n#+filetags: Project")
-	   :unnarrowed t)))
-  )
+      '(("d" "default" plain
+	 "%?"
+	 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+			    "#+title: ${title}\n\n* tags ::      :noexport:\n")
+	 :unnarrowed t)
+
+	("l" "programming language" plain
+	 "* Characteristics\n\n- Family: %?\n- Inspired by: \n\n* Reference:\n\n"
+	 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+			    "#+title: ${title}\n\n* tags ::      :noexport:\n")
+	 :unnarrowed t)
+
+	("b" "book notes" plain
+	 "\n* Source\n\nAuthor: %^{Author}\nTitle: ${title}\nYear: %^{Year}\n\n* Summary\n\n%?"
+	 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+			    "#+title: ${title}\n\n* tags ::      :noexport:\n")
+	 :unnarrowed t)
+
+	("p" "project" plain
+	 "* tags ::      :noexport:\n\n* Goals\n\n%?\n\n* Tasks\n\n** PROJECT Tasks \n\n** TODO Add initial tasks\n\n* Dates\n\n* Notes\n\n"
+	 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+			    "#+title: ${title}\n#+filetags: Project\n\n")
+	 :unnarrowed t)))
+)
 
 ;; ;;---------------------------------------------------------------------
 ;; ;; Insert note more smootherly

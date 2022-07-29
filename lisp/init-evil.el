@@ -35,11 +35,12 @@
     (kbd ",") (general-simulate-key "C-x")
     (kbd ".") (general-simulate-key "C-c")
     (kbd "e") 'er/expand-region
-    (kbd "TAB") 'evil-indent-line
     (kbd "H") 'sp-backward-sexp
     (kbd "L") 'sp-forward-sexp
     (kbd "K") 'kill-sexp)
 
+  (evil-define-key 'normal 'org-mode-map
+    (kbd "TAB") 'org-cycle)
   (evil-define-key 'insert 'global (kbd "C-u") 'evil-normal-state)
   (evil-define-key 'normal 'global (kbd "C-u") 'evil-normal-state)
 
@@ -75,6 +76,7 @@
    "e" 'er/expand-region
    "ff" 'find-file
    "fr" 'consult-recent-file
+   "fd" 'consult-dir
    "fR" 'rename-this-file-and-buffer
    "fD" 'delete-this-file
    "h" 'help-command
@@ -87,6 +89,7 @@
    "wo" 'wg-open-workgroup
    "wk" 'wg-kill-workgroup
    "wc" 'wg-create-workgroup
+   "ww" 'ace-window
    "y" 'browse-kill-ring)
   (general-auto-unbind-keys t))
 
