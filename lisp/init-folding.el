@@ -10,7 +10,7 @@
 (with-eval-after-load 'origami
   (diminish 'origami-mode))
 
-(origami-mode +1)
+(global-origami-mode 1)
 
 (provide 'init-folding)
 ;;; init-folding.el ends here

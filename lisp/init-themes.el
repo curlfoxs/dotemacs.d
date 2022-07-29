@@ -2,16 +2,21 @@
 ;;; Commentary:
 ;;; Code:
 
+;;------ ---------------------------------------------------------------
+;; Font
+;;---------------------------------------------------------------------
+;; If you don't customize it, this is the theme you get.
+(setq-default custom-enabled-themes '(modus-vivendi))
+(set-frame-font "Iosevka Fixed-16" nil t) ;; TODO if not install this font?
+
+;;---------------------------------------------------------------------
+;; Theme
+;;---------------------------------------------------------------------
 (require-package 'modus-themes)
-(require-package 'vscode-dark-plus-theme)
 
 ;; Don't prompt to confirm theme safety. This avoids problems with
 ;; first-time startup on Emacs > 26.3.
 (setq custom-safe-themes t)
-
-;; If you don't customize it, this is the theme you get.
-(setq-default custom-enabled-themes '(vscode-dark-plus))
-(set-frame-font "Iosevka Fixed-18" nil t) ;; TODO if not install this font?
 
 ;; Ensure that themes will be applied even if they have not been customized
 (defun reapply-themes ()
@@ -54,6 +59,6 @@
     (add-to-list 'dimmer-exclusion-predicates 'sanityinc/display-non-graphic-p)))
 
 
-;; (load-theme 'vscode-dark-plus)
+(load-theme 'modus-vivendi)
 (provide 'init-themes)
 ;;; init-themes.el ends here

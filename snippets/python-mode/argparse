@@ -1,0 +1,19 @@
+# -*- mode: python -*-
+# name: argparse
+# key: argparse
+# --
+
+import argparse
+
+parser = argparse.ArgumentParser(
+    description="Start a server to support " "playing video urls with MPV."
+)
+parser.add_argument(
+    "-p",
+    "--port",
+    default=50000,
+    dest="port",
+    help="choose the port that server " "listens to (default: 50000)",
+)
+args = parser.parse_args()
+# app.run(port=args.port)	

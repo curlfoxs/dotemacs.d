@@ -24,5 +24,5 @@
   (global-set-key (kbd "M-?") 'rg-project))
 
 
-(provide 'init-grep)
+(provide 'init-wgrep)
 ;;; init-grep.el ends here

@@ -1,3 +1,12 @@
+;;; init-gui-frames.el --- Insert description here -*- lexical-binding: t -*-
+;;; Commentary:
+;;; Code:
+
+;;---------------------------------------------------------------------
+;; Cursor
+;;---------------------------------------------------------------------
+(blink-cursor-mode 0)
+
 ;;---------------------------------------------------------------------
 ;; Window size and features
 ;;---------------------------------------------------------------------
@@ -25,31 +34,6 @@
 ;;---------------------------------------------------------------------
 ;; Modeline features (You could learn some codes from it)
 ;;---------------------------------------------------------------------
-;; (display-time-mode 1)
-;; (parse-time-string "%m-%d %H:%M")
-;; (require 'keycast)
-;; (keycast-mode 1)
-;; Mode line setup
-
-;; (setq default-modeline-format
-;;         (list
-;;           ""   
-;;           (cons modeline-modified-extent 'modeline-modified)
-;;           (list 'line-number-mode "(%l,")
-;;           (list 'column-number-mode "%c) ")
-;;           (cons modeline-buffer-id-extent 'modeline-buffer-identification)
-;;           "  "
-;;           'global-mode-string
-;;           "   %[("
-;;           (cons modeline-minor-mode-extent
-;;                 (list "" 'mode-name 'minor-mode-alist))
-;;           (cons modeline-narrowed-extent "%n")
-;;           'modeline-process
-;;           ")%]---"
-;;           (cons -3 "%p")
-;;           "-%-"))
-
-(add-hook 'after-init-hook 'wullic/mode-line-format)
 (defun wullic/mode-line-format ()
 (setq-default
  mode-line-format
@@ -124,15 +108,6 @@
 (make-face 'mode-line-process-face)
 (make-face 'mode-line-80col-face)
 
-;; (set-face-attribute 'mode-line nil
-;;     :foreground "gray60" :background "gray20"
-;;     :inverse-video nil
-;;     :box '(:line-width 6 :color "gray20" :style nil))
-;; (set-face-attribute 'mode-line-inactive nil
-;;     :foreground "gray70" :background "gray30"
-;;     :inverse-video nil
-;;     :box '(:line-width 6 :color "gray30" :style nil))
-
 (set-face-attribute 'mode-line-read-only-face nil
     :inherit 'mode-line-face
     :foreground "#4271ae"
@@ -198,8 +173,9 @@
 (when (and *is-a-mac* (fboundp 'toggle-frame-fullscreen))
   ;; Command-Option-f to toggle fullscreen mode
   ;; Auto toggle fullscreen
-  (global-set-key (kbd "C-<return>") 'toggle-frame-fullscreen)
-  (add-hook 'after-init-hook 'toggle-frame-fullscreen))
+  ;; (global-set-key (kbd "C-<return>") 'toggle-frame-fullscreen)
+  (add-hook 'after-init-hook 'toggle-frame-fullscreen)
+  )
 
 ;;---------------------------------------------------------------------
 ;; Titlebar
@@ -227,3 +203,4 @@
 (add-hook 'after-init-hook 'default-text-scale-mode)
 
 (provide 'init-gui-frames)
+;;; init-gui-frames.el ends here

@@ -16,8 +16,8 @@
 ;; highlight-current-line
 ;;---------------------------------------------------------------------
 ;; prog-mode and text-mode enable hl-line-mode, except vterm (it will blink)
-(add-hook 'prog-mode-hook (lambda () (hl-line-mode t)))
-(add-hook 'text-mode-hook (lambda () (hl-line-mode t)))
+;; (add-hook 'prog-mode-hook (lambda () (hl-line-mode t)))
+;; (add-hook 'text-mode-hook (lambda () (hl-line-mode t)))
 
 (when (maybe-require-package 'volatile-highlights)
   (volatile-highlights-mode t)

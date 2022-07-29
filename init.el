@@ -12,6 +12,7 @@
 
 (setq user-init-file (or load-file-name (buffer-file-name)))
 (setq user-emacs-directory (file-name-directory user-init-file))
+
 ;;---------------------------------------------------------------------
 ;; Enviroment
 ;;---------------------------------------------------------------------
@@ -59,7 +60,7 @@
 (require 'init-exec-path) ;; Set up %PATH
 (defconst *spell-check-support-enabled* nil) ;; Enable with t if you prefer, it wiil effect start time heavily
 (defconst *is-a-mac* (eq system-type 'darwin)) ;; mac osx system
-
+(when *is-a-mac* (set-keyboard-coding-system nil)) ;; The Apple X11 server make confusion when using "Metaq"
 ;;---------------------------------------------------------------------
 ;; Load specific features and modes
 ;;---------------------------------------------------------------------
@@ -71,30 +72,30 @@
 
 (require 'init-frame-hooks)
 (require 'init-term) ; term emulator
-(require 'init-themes)
 (require 'init-gui-frames)
+(require 'init-themes)
 ;; (require 'init-dired)
-(require 'init-grep) ;; TODO exlude mode
+(require 'init-wgrep) ;; exclude mode and wgrep-replace!!!
 ;; (require 'init-ibuffer)
 (require 'init-flycheck)
+(require 'init-text)
 ;; (require 'init-flyspell)
 (require 'init-recentf)
 ;; (require 'init-minibuffer)
-(require 'init-tabbar)
+;; (require 'init-tabbar)
 ;; (require 'init-windows)
 ;; (require 'init-sessions)
 (require 'init-mmm) ;; only one consistent buffer
 ;; (require 'init-editing-utils)
 (require 'init-parens)
-(require 'init-regions)
 (require 'init-whitespace)
 (require 'init-editing-tools) ;; TODO multiple column mode
 (require 'init-git)
 ;; (require 'init-github)
-(require 'init-neotree) ;; file tree
+;; (require 'init-neotree) ;; file tree
 (require 'init-projectile)
 
-(require 'init-meow)
+;; (require 'init-meow)
 (require 'init-vertico)
 (require 'init-consult)
 (require 'init-embark)
@@ -107,17 +108,21 @@
 (require 'init-python)
 ;; (require 'init-c)
 (require 'init-c-lsp)
-(require 'init-yasnippet)
+(require 'init-c-sharp)
+(require 'init-yasnippet) ;; Newer write code by hand
 
 (require 'init-folding)
 (require 'init-dash)
 (require 'init-highlight)
 
-(require-package 'workgroups2) ;; Window and buffer manager
-(workgroups-mode 1)   ; put this one at the bottom of .emacs
+(require 'init-browser)
 (require 'init-direnv) ;; Enviroment directory useful for almost env & work with nigix
+
+(require 'init-svg-tag) ;; Added in  2207
+
 (require 'init-wullic) ;; wullic personal keymap
 
+(require 'init-evil) ;; evil keymap 
 ;;---------------------------------------------------------------------
 ;; Load user custom.el
 ;;---------------------------------------------------------------------
@@ -129,3 +134,4 @@
 (message "Ready to do thy bidding, Master %s!" current-user)
 (provide 'init)
 ;;; init.el ends here
+;; (put 'narrow-to-region 'disabled nil)

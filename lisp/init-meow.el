@@ -158,7 +158,7 @@ This will shrink the word selection only contains
    '("v" . meow-visit)
    '("w" . wullic/meow-next-word)
    '("W" . meow-next-symbol)
-   '("x" . save-buffer)
+   '("x" . execute-extended-command)
    '("X" . meow-sync-grab)
    '("y" . yank)
    '("z" . meow-pop-selection)

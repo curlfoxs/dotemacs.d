@@ -1,3 +1,7 @@
+;;; init-yasnippet.el --- Insert description here -*- lexical-binding: t -*-
+;;; Commentary:
+;;; Code:
+
 (use-package yasnippet
   :ensure t
   :config
@@ -12,3 +16,4 @@
   (diminish 'yas-minor-mode))
 
 (provide 'init-yasnippet)
+;;; init-yasnippet.el ends here

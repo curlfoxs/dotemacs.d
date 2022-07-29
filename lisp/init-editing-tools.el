@@ -1,3 +1,6 @@
+;;; init-editing-tools.el --- Insert description here -*- lexical-binding: t -*-
+;;; Commentary:
+;;; Code:
 (require-package 'ace-window)
 (require-package 'drag-stuff)
 
@@ -28,5 +31,10 @@
 (browse-kill-ring-default-keybindings)
 (global-set-key (kbd "s-y") 'browse-kill-ring)
 
+;;---------------------------------------------------------------------
+;; save-place-mode save file palce when reopen
+;;---------------------------------------------------------------------
+(save-place-mode 1)
 
 (provide 'init-editing-tools)
+;;; init-editing-tools.el ends here

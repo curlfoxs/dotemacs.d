@@ -1,0 +1,28 @@
+# -*- mode: python -*-
+# name: flask-mini
+# key: flask
+# --
+From flask import Flask
+from flask_cors import CORS
+from webargs import fields
+from webargs.flaskparser import use_args
+
+video_args = {
+    "dir": fields.Str(required=True),
+    "referer": fields.Str(required=True),
+    "user-agent": fields.Str(),
+    "urls": fields.List(fields.Str()),
+    "titles": fields.List(fields.Str()),
+}
+
+app = Flask(__name__)
+CORS(app, resources=r"/*")  # To fix ajax CORS problem
+
+@app.route("/", methods=["GET", "POST"])
+@use_args(video_args)
+def paly_with_mpv(args):
+    if args["user-agent"] is None:
+        args["user-agent"] = "Chrome"
+    return "hello, world"
+
+app.run(port=50000)

@@ -17,24 +17,6 @@
 ;; ;;; helper function
 ;;---------------------------------------------------------------------
 
-(defun my-step-out-forward ()
-  "Step forward out of current list or string."
-  (interactive)
-  (forward-char)
-  (if (nth 3 (syntax-ppss (point)))
-      (progn
-        (forward-char)
-        (while (and (not (eobp)) (nth 3 (syntax-ppss (point))))
-          (forward-char)))
-    (up-list)))
-
-(defun my-step-out-backward ()
-  "Step backward out of current list or string."
-  (interactive)
-  (backward-char)
-  (backward-up-list)
-  )
-
 ;; my-projectile-ibuffer
 (defun my-projectile-ibuffer (prompt-for-project)
   "Split window horizontally and open projectile-ibuffer"
@@ -69,16 +51,36 @@
 (define-key wullic-mode-map (kbd "s-m k") 'magit-file-dispatch)
 (define-key wullic-mode-map (kbd "s-m l") 'magit-log-buffer-file)
 (define-key wullic-mode-map (kbd "s-m b") 'magit-blame)
+(define-key wullic-mode-map (kbd "s-m c") 'magit-clone)
 
 ;;---------------------------------------------------------------------
-;; Avy & Jump
+;; Jump to & avy
 ;;---------------------------------------------------------------------
+(defun my-step-out-forward ()
+  "Step forward out of current list or string."
+  (interactive)
+  (forward-char)
+  (if (nth 3 (syntax-ppss (point)))
+      (progn
+	(forward-char)
+	(while (and (not (eobp)) (nth 3 (syntax-ppss (point))))
+	  (forward-char)))
+    (up-list)))
+
+(defun my-step-out-backward ()
+  "Step backward out of current list or string."
+  (interactive)
+  (backward-char)
+  (backward-up-list)
+  )
 
 (define-key wullic-mode-map (kbd "s-j") nil)
+(define-key wullic-mode-map (kbd "s-j d") 'consult-dir)
 (define-key wullic-mode-map (kbd "s-j m") 'bookmark-set)
 (define-key wullic-mode-map (kbd "s-j b") 'bookmark-jump)
 (define-key wullic-mode-map (kbd "s-j w") 'avy-goto-word-1)
 ;; (define-key wullic-mode-map (kbd "s-j s") 'avy-goto-char)
+(define-key wullic-mode-map (kbd "s-j ;") 'avy-goto-char-timer)
 (define-key wullic-mode-map (kbd "s-j j") 'avy-goto-char-timer)
 (define-key wullic-mode-map (kbd "s-j c") 'avy-copy-line)
 (define-key wullic-mode-map (kbd "s-j k") 'avy-kill-whole-line)
@@ -86,14 +88,11 @@
 (define-key wullic-mode-map (kbd "s-j l") `goto-line)
 (define-key wullic-mode-map (kbd "s-j i") `avy-goto-char-in-line)
 (define-key wullic-mode-map (kbd "s-j p") 'pop-global-mark)
-(define-key wullic-mode-map (kbd "s-j s") 'exchange-point-and-mark)
+(define-key wullic-mode-map (kbd "s-j x") 'exchange-point-and-mark)
 (define-key wullic-mode-map (kbd "s-j a") 'my-step-out-backward)
 (define-key wullic-mode-map (kbd "s-j e") 'my-step-out-forward)
 (define-key wullic-mode-map (kbd "s-;") 'avy-goto-char-timer)
-
-;;---------------------------------------------------------------------
-;; Definition & Referencees
-;;---------------------------------------------------------------------
+(define-key wullic-mode-map (kbd "s-j i") 'consult-imenu)
 
 ;;; Jump symbol definition/references
 ;; (define-key wullic-mode-map (kbd "s-d") nil)
@@ -102,18 +101,18 @@
 
 
 ;;---------------------------------------------------------------------
-;; FSA
+;; FSA / Search
 ;;---------------------------------------------------------------------
 ;;; Filter/Select/Action
 ;; search
-(define-key wullic-mode-map (kbd "s-i i") 'consult-imenu)
-(define-key key-translation-map (kbd "s-i p") (kbd "C-c p"))
-(define-key wullic-mode-map (kbd "s-i g") 'rgrep)
-(define-key wullic-mode-map (kbd "s-i f") 'consult-find)
-(define-key wullic-mode-map (kbd "s-i j") 'consult-git-grep)
-(define-key wullic-mode-map (kbd "s-i k") 'consult-ripgrep)
-(define-key wullic-mode-map (kbd "s-i l") 'consult-locate)
-(define-key wullic-mode-map (kbd "s-i h") 'consult-history)
+(define-key wullic-mode-map (kbd "s-g") nil)
+(define-key key-translation-map (kbd "s-g p") (kbd "C-c p"))
+(define-key wullic-mode-map (kbd "s-g s") 'rgrep)
+(define-key wullic-mode-map (kbd "s-g f") 'consult-find)
+(define-key wullic-mode-map (kbd "s-g g") 'consult-git-grep)
+(define-key wullic-mode-map (kbd "s-g r") 'consult-ripgrep)
+(define-key wullic-mode-map (kbd "s-g l") 'consult-locate)
+(define-key wullic-mode-map (kbd "s-g h") 'consult-history)
 ;; consult find
 (define-key wullic-mode-map (kbd "s-f") 'find-file)
 (define-key wullic-mode-map (kbd "s-r") 'consult-recent-file)
@@ -133,7 +132,7 @@
    (interactive)
    (minibuffer-with-setup-hook (lambda () (insert "embark "))
      (call-interactively #'execute-extended-command)))
-(define-key wullic-mode-map (kbd "s-i a") 'my-embark-prefix)
+(define-key wullic-mode-map (kbd "s-i e") 'my-embark-prefix)
 
 ;; my-query-prefix
 (defun my-query-replace-prefix ()
@@ -157,10 +156,10 @@
 ;;; Edit skill & Cursor control
 ;; meow-mode
 ;; C-i unbind with <TAB>
-(define-key input-decode-map (kbd "C-i") (kbd "H-i"))
-(define-key key-translation-map (kbd "H-i") (kbd "<escape>"))
+;; (define-key input-decode-map (kbd "C-i") (kbd "H-i"))
+;; (define-key key-translation-map (kbd "H-i") (kbd "<escape>"))
 ;; (define-key wullic-mode-map (kbd "s-k") 'crux-kill-whole-line)
-(define-key wullic-mode-map (kbd "C-a") 'back-to-indentation)
+;; (define-key wullic-mode-map (kbd "C-a") 'back-to-indentation)
 (define-key wullic-mode-map (kbd "s-w") 'ace-window)
 (global-set-key (kbd "s-e") 'er/expand-region)
 (define-key wullic-mode-map (kbd "C-j") 'join-line)
@@ -172,30 +171,31 @@
 ;; (global-set-key (kbd "s-w") 'easy-kill)
 (define-key key-translation-map (kbd "M-h") (kbd "M-DEL"))
 ;; newline
-(global-set-key (kbd "C-o") `meow-open-above)
-(define-key wullic-mode-map (kbd "s-o") nil)
-(global-set-key (kbd "s-o") 'meow-open-below)
+;; (global-set-key (kbd "C-o") `meow-open-above)
+;; (define-key wullic-mode-map (kbd "s-o") nil)
+;; (global-set-key (kbd "s-o") 'meow-open-below)
+(global-set-key (kbd "s-o") (kbd "C-e C-m"))
 ;; buffer control
 (define-key wullic-mode-map (kbd "s-u") nil)
-(define-key wullic-mode-map (kbd "s-u v") 'revert-buffer)
-(define-key wullic-mode-map (kbd "s-u p") 'previous-buffer)
-(define-key wullic-mode-map (kbd "s-u n") 'next-buffer)
-(define-key wullic-mode-map (kbd "s-u k") 'kill-buffer)
-(define-key wullic-mode-map (kbd "s-u i") 'ibuffer)
-(define-key wullic-mode-map (kbd "s-u u") 'consult-buffer)
-(define-key wullic-mode-map (kbd "s-u U") 'projectile-ibuffer)
+;; (define-key wullic-mode-map (kbd "s-u v") 'revert-buffer)
+;; (define-key wullic-mode-map (kbd "s-u p") 'previous-buffer)
+;; (define-key wullic-mode-map (kbd "s-u n") 'next-buffer)
+;; (define-key wullic-mode-map (kbd "s-u k") 'kill-buffer)
+;; (define-key wullic-mode-map (kbd "s-u C-b") 'ibuffer)
+;; (define-key wullic-mode-map (kbd "s-u b") 'consult-buffer)
+;; (define-key wullic-mode-map (kbd "s-u i") 'projectile-ibuffer)
 ;; window conrtorl
 ;; (define-key wullic-mode-map (kbd "s-u s") 'crux-swap-windows)
-(define-key wullic-mode-map (kbd "s-u 1") 'delete-other-windows)
-(define-key wullic-mode-map (kbd "s-u 0") 'delete-window)
-(define-key wullic-mode-map (kbd "s-u 2") 'split-window-below)
-(define-key wullic-mode-map (kbd "s-u 3") 'split-window-right)
+;; (define-key wullic-mode-map (kbd "s-u 1") 'delete-other-windows)
+;; (define-key wullic-mode-map (kbd "s-u 0") 'delete-window)
+;; (define-key wullic-mode-map (kbd "s-u 2") 'split-window-below)
+;; (define-key wullic-mode-map (kbd "s-u 3") 'split-window-right)
 ;; workgroups2
-(define-key wullic-mode-map (kbd "s-u w c") 'wg-create-workgroup)
-(define-key wullic-mode-map (kbd "s-u w o") 'wg-open-workgroup)
-(define-key wullic-mode-map (kbd "s-u w k") 'wg-kill-workgroup)
+;; (define-key wullic-mode-map (kbd "s-u w c") 'wg-create-workgroup)
+;; (define-key wullic-mode-map (kbd "s-u w o") 'wg-open-workgroup)
+;; (define-key wullic-mode-map (kbd "s-u w k") 'wg-kill-workgroup)
 ;; tabbar
-(define-key wullic-mode-map (kbd "s-u t") 'my-select-tab-by-name)
+;; (define-key wullic-mode-map (kbd "s-u t") 'my-select-tab-by-name)
 
 (define-key wullic-mode-map (kbd "s-p") 'previous-buffer)
 (define-key wullic-mode-map (kbd "s-n") 'next-buffer)
@@ -209,13 +209,23 @@
 (global-set-key (kbd "s-<right>") 'next-buffer)
 
 ;;---------------------------------------------------------------------
+;; sexp
+;;---------------------------------------------------------------------
+(defun wullic/delete-sexp ()
+  (interactive)
+  (backward-sexp)
+  (kill-sexp)
+  )
+(global-set-key (kbd "C-M-<backspace>") 'wullic/delete-sexp)
+
+;;---------------------------------------------------------------------
 ;; Help
 ;;---------------------------------------------------------------------
 
 ;;; Help menu
 (global-unset-key (kbd "s-h"))
 (global-set-key (kbd "s-h") 'help-command)
-;; (global-set-key (kbd "C-h") 'sp-backward-delete-char)
+(global-set-key (kbd "C-h") 'sp-backward-delete-char)
 
 
 ;;; Highlight symbol
@@ -236,6 +246,13 @@
 ;; (global-set-key (kbd "C-q") 'set-mark-command)
 ;; (global-set-key (kbd "s-s") 'save-buffer)
 (global-set-key (kbd "C-x m") 'my-eshell)
+
+;;---------------------------------------------------------------------
+;; emby
+;;---------------------------------------------------------------------
+(maybe-require-package 'embark)
+(define-key wullic-mode-map (kbd "C-.") 'embark-act)
+
 
 (define-minor-mode wullic-mode
   "Minor mode to consolidate Emacs Prelude extensions.

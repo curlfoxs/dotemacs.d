@@ -58,21 +58,6 @@
 
 (add-hook 'c-mode-hook 'eglot-ensure)
 (add-hook 'c++-mode-hook 'eglot-ensure)
-;;; Java development Based on https://github.com/joaotavora/eglot/issues/176#issuecomment-445021620
-;; (defconst my-eglot-eclipse-jdt-home
-;; "/Users/toni/.emacs.d/jdt-language-server-0.52.0-202003111128/plugins/org.eclipse.equinox.launcher_1.5.700.v20200207-2156.jar"
-;; "Point to eclipse jdt jar.")
-
-;; (defun my-eglot-eclipse-jdt-contact (interactive)
-;; "Contact with the jdt server input INTERACTIVE."
-;; (let ((cp (getenv "CLASSPATH")))
-;; (setenv "CLASSPATH" (concat cp ":" my-eglot-eclipse-jdt-home))
-;; (unwind-protect (eglot--eclipse-jdt-contact nil)
-;; (setenv "CLASSPATH" cp))))
-
-;; (setcdr (assq 'java-mode eglot-server-programs) #'my-eglot-eclipse-jdt-contact)
-
-;; (add-hook 'java-mode-hook 'eglot-ensure)
 
 ;;---------------------------------------------------------------------
 ;; tabwidth
@@ -80,6 +65,17 @@
 ;; (setq-default c-basic-offset 4)
 (require 'google-c-style)
 (add-hook 'c-mode-common-hook 'google-set-c-style)
+
+;;---------------------------------------------------------------------
+;; Quickrun
+;;---------------------------------------------------------------------
+(require-package 'quickrun)
+(quickrun-add-command "c++/c11"
+  '((:command . "g++")
+    (:exec    . ("%c -std=c++11 %o -o %e %s"
+		 "%e %a"))
+    (:remove  . ("%e")))
+  :default "c++")
 
 (provide 'init-c-lsp)
 

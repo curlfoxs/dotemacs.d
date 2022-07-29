@@ -2,6 +2,9 @@
 ;;; Commentary:
 ;;; Code:
 
+(require 'ox)
+(require 'org)
+
 ;;---------------------------------------------------------------------
 ;; Prefer-config
 ;;---------------------------------------------------------------------
@@ -18,6 +21,7 @@
       org-html-validation-link nil
       org-export-kill-product-buffer-when-displayed t
       org-tags-column 80
+      org-agenda-tags-column 180
       org-use-property-inheritance t)
 (add-hook 'org-mode-hook (lambda () (org-indent-mode t)))
 
@@ -52,10 +56,12 @@
 ;; agenda
 ;;---------------------------------------------------------------------
 ;; Agenda files
+;; (setq org-directory "~/org")
 (setq org-default-notes-file  "~/org/inbox.org")
-(setq org-agenda-files (list "~/org/work.org"
-			     "~/org/inbox.org"
-                             "~/org/home.org"))
+;; (setq org-agenda-files (list "~/org/computer.org"
+;; 			     "~/org/inbox.org"
+;;                              "~/org/todo.org"))
+(setq org-agenda-files (quote ("~/org")))
 
 ;; Keybindings
 (define-key global-map (kbd "C-c l") 'org-store-link)
@@ -77,19 +83,25 @@
               (sequence "WAITING(w@/!)" "DELEGATED(e!)" "HOLD(h)" "|" "CANCELLED(c@/!)")))
       org-todo-repeat-to-state "NEXT")
 (setq org-todo-keyword-faces
-      (quote (("NEXT" :inherit warning)
-              ("PROJECT" :inherit font-lock-string-face))))
+      (quote (("TODO" :inherit org-todo)
+	      ("NEXT" :inherit warning)
+	      ("DONE" :inherit org-done)
+              ("PROJECT" :inherit font-lock-string-face)
+	      ("CANCELLED" :inherit org-todo)
+	      ("WAITING" :inherit org-todo)
+	      ("DELEGATED" :inherit org-todo)
+	      ("HOLD" :inherit org-todo))))
 
 ;;; Capture templates
 (setq org-capture-templates
       `(("t" "todo" entry (file "")  ; "" => `org-default-notes-file'
          "* NEXT %?\n%U\n" :clock-resume t)
         ("n" "note" entry (file "")
-         "* %? :NOTE:\n%U\n%a\n" :clock-resume t)
+         "* NEXT %? :NOTE:\n:PROPERTIES:\n:CATEGORY: note\n:END:\n%U\n" :clock-resume t)
         ))
 
 ;;---------------------------------------------------------------------
-;; Cull org config. Use it first
+;; Org config. Use it first
 ;;---------------------------------------------------------------------
 (when *is-a-mac*
   (maybe-require-package 'grab-mac-link))
@@ -144,9 +156,9 @@
 ;; Allow refile to create parent tasks with confirmation
 (setq org-refile-allow-creating-parent-nodes 'confirm)
 
-
-;;; Agenda views
-
+;;---------------------------------------------------------------------
+;; Agenda views
+;;---------------------------------------------------------------------
 (setq-default org-agenda-clockreport-parameter-plist '(:link t :maxlevel 3))
 
 
@@ -169,7 +181,7 @@
         org-agenda-custom-commands
         `(("g" "GTD"
            ((agenda "" nil)
-            (tags "INBOX"
+            (tags-todo "INBOX"
                   ((org-agenda-overriding-header "Inbox")
                    (org-tags-match-list-sublevels nil)))
             (stuck ""
@@ -216,6 +228,20 @@
                         (org-agenda-todo-ignore-scheduled 'future)
                         (org-agenda-sorting-strategy
                          '(category-keep))))
+            (tags-todo "HOLD"
+                       ((org-agenda-overriding-header "On Hold: See with C-c a h")
+                        (org-agenda-skip-function
+                         '(lambda ()
+			    (org-agenda-skip-subtree-if 'todo '("HOLD"))))
+                        (org-tags-match-list-sublevels nil)
+                        (org-agenda-sorting-strategy
+                         '(category-keep))))
+            ;; (tags-todo "-NEXT"
+            ;;            ((org-agenda-overriding-header "All other TODOs")
+            ;;             (org-match-list-sublevels t)))
+            ))
+	  ("h"  "On Hold Task/Project"
+	   ((agenda)
             (tags-todo "-INBOX"
                        ((org-agenda-overriding-header "On Hold")
                         (org-agenda-skip-function
@@ -225,17 +251,15 @@
                         (org-tags-match-list-sublevels nil)
                         (org-agenda-sorting-strategy
                          '(category-keep))))
-            ;; (tags-todo "-NEXT"
-            ;;            ((org-agenda-overriding-header "All other TODOs")
-            ;;             (org-match-list-sublevels t)))
-            )))))
+	    ))
+	  )))
 
 
 (add-hook 'org-agenda-mode-hook 'hl-line-mode)
 
-
-;;; Org clock
-
+;;---------------------------------------------------------------------
+;;  Org clock
+;;---------------------------------------------------------------------
 ;; Save the running clock and all clock history when exiting Emacs, load it on startup
 (with-eval-after-load 'org
   (org-clock-persistence-insinuate))
@@ -288,10 +312,8 @@
 (setq org-archive-mark-done nil)
 (setq org-archive-location "%s_archive::* Archive")
 
-(require-package 'org-pomodoro)
-(setq org-pomodoro-keep-killed-pomodoro-time t)
-(with-eval-after-load 'org-agenda
-  (define-key org-agenda-mode-map (kbd "P") 'org-pomodoro))
+;;; Others
+
 
 (with-eval-after-load 'org
   (define-key org-mode-map (kbd "C-M-<up>") 'org-up-element)
@@ -305,7 +327,7 @@
 (setq org-image-actual-width nil)
 
 ;;---------------------------------------------------------------------
-;; Ecosystem
+;; Org Ecosystem
 ;;---------------------------------------------------------------------
 ;; org-download
 (require-package 'org-download)
@@ -314,9 +336,108 @@
 
 
 ;;---------------------------------------------------------------------
-;; roam
+;; org roam config
 ;;---------------------------------------------------------------------
 (require 'init-org-roam)
+(setq org-roam-capture-templates
+      '(("d" "default" plain
+	 "%?"
+	 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n\n* tags ::      :noexport:\n")
+	 :unnarrowed t)
+	("l" "programming language" plain
+ "* Characteristics\n\n- Family: %?\n- Inspired by: \n\n* Reference:\n\n"
+ :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n\n* tags ::      :noexport:\n")
+ :unnarrowed t)
+	("b" "book notes" plain
+ "\n* Source\n\nAuthor: %^{Author}\nTitle: ${title}\nYear: %^{Year}\n\n* Summary\n\n%?"
+ :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n\n* tags ::      :noexport:\n")
+ :unnarrowed t)
+	("p" "project" plain "* tags ::      :noexport:\n\n* Goals\n\n%?\n\n* Tasks\n\n** PROJECT Tasks \n\n** TODO Add initial tasks\n\n* Dates\n\n* Notes\n\n"
+ :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: Project\n\n")
+ :unnarrowed t)))
+
+;;---------------------------------------------------------------------
+;; Org Pomotoro clock
+;;---------------------------------------------------------------------
+(require-package 'org-pomodoro)
+(setq org-pomodoro-keep-killed-pomodoro-time t)
+(with-eval-after-load 'org-agenda
+  (define-key org-agenda-mode-map (kbd "P") 'org-pomodoro))
+(add-hook 'org-pomodoro-break-finished-hook
+  (lambda ()
+    (interactive)
+    (org-clock-in-last)))
+
+
+;;---------------------------------------------------------------------
+;; Org html options
+;;---------------------------------------------------------------------
+(setq org-html-doctype "html5")
+(setq org-html-html5-fancy t) ;; Only display html5 supporting content
+
+;;---------------------------------------------------------------------
+;; Org bili-html backend
+;;---------------------------------------------------------------------
+(setq lang-trans-table
+      '(("shell" "(shell@shell@Shell)")
+	("python" "text/x-python@python@Python")))
+(defun org-bili-html-src-block (src-block _contents info)
+  "Transcode a SRC-BLOCK element from Org to HTML in bilibili article.
+CONTENTS holds the contents of the item.  INFO is a plist holding
+contextual information."
+  (if (org-export-read-attribute :attr_html src-block :textarea)
+      (org-html--textarea-block src-block)
+    (let* ((lang (org-element-property :language src-block))
+	   (code (org-html-format-code src-block info))
+	   (code (replace-regexp-in-string "\"" "&quot;" code))
+	   (code (replace-regexp-in-string "<" "&lt;" code))
+	   (code (replace-regexp-in-string ">" "&gt;" code))
+	   (label (let ((lbl (org-html--reference src-block info t)))
+		    (if lbl (format " id=\"%s\"" lbl) "")))
+	   (klipsify  (and  (plist-get info :html-klipsify-src)
+                            (member lang '("javascript" "js"
+					   "ruby" "scheme" "clojure" "php" "html")))))
+      (if (not lang) (setq lang "javascript") lang)
+      (format  "<figure class=\"code-box\" contenteditable=\"false\"><pre data-lang=\"%s\" codecontent=\"%s\" class=\"  language-%s\"><code class=\"  language-%s\"></code></pre></figure>"
+	       (cdr (assoc lang lang-trans-table))
+	       code
+	       lang 
+	       lang))))
+
+(defun org-bili-html-template (contents info) contents)
+
+(defun org-bili-html-export-as-html
+    (&optional async subtreep visible-only body-only ext-plist)
+  (interactive)
+  (org-export-to-buffer 'bili-html "*Org BILIBILI HTML Export*"
+    async subtreep visible-only body-only ext-plist
+    (lambda () (set-auto-mode t))))
+
+(defun org-bili-html-export-to-html
+    (&optional async subtreep visible-only body-only ext-plist)
+  (interactive)
+  (let* ((extension (concat
+		     (when (> (length org-html-extension) 0) ".")
+		     (or (plist-get ext-plist :html-extension)
+			 org-html-extension
+			 "html")))
+	 (file (org-export-output-file-name extension subtreep))
+	 (org-export-coding-system org-html-coding-system))
+    (org-export-to-file 'bili-html file
+      async subtreep visible-only body-only ext-plist)))
+
+(org-export-define-derived-backend 'bili-html'html
+  :translate-alist
+  '((src-block . org-bili-html-src-block)
+    (template . org-bili-html-template)
+    ;; (table . org-ascii-table)
+    ;; (table-cell . org-ascii-table-cell)
+    ;; (table-row . org-ascii-table-row)
+    )
+  :menu-entry
+  '(?b "Export to Bilibili article HTML"
+       ((?H "As HTML buffer" org-bili-html-export-as-html)
+	(?h "As HTML file" org-bili-html-export-to-html))))
 
 (provide 'init-org)
 ;;; init-org.el ends here
