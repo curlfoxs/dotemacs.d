@@ -97,6 +97,7 @@
 
 ;; (require 'init-meow)
 (require 'init-vertico)
+;; (require 'init-ivy)
 (require 'init-consult)
 (require 'init-embark)
 (require 'init-company)

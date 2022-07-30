@@ -2,13 +2,21 @@
 ;;; Commentary:
 ;;; Code:
 
+(defun wullic/evil-ret (arg)
+  (interactive "p")
+  (evil-insert 1)
+  (newline-and-indent)
+  (evil-normal-state))
+
 (maybe-require-package 'smartparens)
 (maybe-require-package 'expand-region)
 (maybe-require-package 'browse-kill-ring)
 (require-package 'workgroups2) ;; Window and buffer manager
 (workgroups-mode 1)   ; put this one at the bottom of .emacs
+(maybe-require-package 'general)
+(maybe-require-package 'consult)
 
-(when (and (maybe-require-package 'evil) (maybe-require-package 'general))
+(when (maybe-require-package 'evil)
   ;;---------------------------------------------------------------------
   ;; Use emacs bindings
   ;;---------------------------------------------------------------------
@@ -16,7 +24,7 @@
   (setq evil-move-beyond-eol t)
   (setq evil-move-cursor-back nil)
   (evil-mode 1)
-  (evil-define-key 'normal 'global
+  (evil-define-key '(normal motion) 'global
     (kbd "C-v") 'scroll-up-command
     (kbd "C-k") 'sp-kill-hybrid-sexp
     (kbd "C-o") 'open-line
@@ -37,7 +45,9 @@
     (kbd "e") 'er/expand-region
     (kbd "H") 'sp-backward-sexp
     (kbd "L") 'sp-forward-sexp
-    (kbd "K") 'kill-sexp)
+    (kbd "K") 'kill-sexp
+    (kbd "C-m") 'wullic/evil-ret
+    (kbd "m") 'set-mark-command)
 
   (evil-define-key 'normal 'org-mode-map
     (kbd "TAB") 'org-cycle)
@@ -67,30 +77,61 @@
   (general-evil-setup)
   (general-auto-unbind-keys)
   (general-nmap
-   :state 'normal
+   :state '(normal motion)
    :override t
    :prefix "SPC"
    :prefix-map 'wullic-leader-map
-   "bb" 'previous-buffer
-   "bf" 'next-buffer
-   "e" 'er/expand-region
+   ;; "bb" 'previous-buffer
+   ;; "bf" 'next-buffer
+   "e" 'consult-buffer
    "ff" 'find-file
    "fr" 'consult-recent-file
    "fd" 'consult-dir
    "fR" 'rename-this-file-and-buffer
    "fD" 'delete-this-file
+   "gr" 'rg-project
+   "gg" 'consult-git-grep
    "h" 'help-command
+   "ii" 'consult-imenu
+   "im" 'consult-imenu-multi
    "jx" 'exchange-point-and-mark
    "mm" 'magit-status
    "mc" 'magit-clone
-   "p" (general-simulate-key "C-x p")
+   "p" (general-simulate-key "C-c p")
    "q" 'save-buffers-kill-emacs
+   "rb" 'consult-bookmark
+   "rm" 'bookmark-set
+   "rr" 'consult-register
+   "rs" 'consult-register-store
    "s" 'save-buffer
    "wo" 'wg-open-workgroup
    "wk" 'wg-kill-workgroup
    "wc" 'wg-create-workgroup
    "ww" 'ace-window
-   "y" 'browse-kill-ring)
+   "xd" 'xref-find-definitions
+   "xs" 'xref-find-apropos
+   "xr" 'xref-find-references
+   "y" 'browse-kill-ring
+   "SPC" 'cycle-spacing)
+  (general-auto-unbind-keys t))
+
+;;---------------------------------------------------------------------
+;; consult keybindings
+;;---------------------------------------------------------------------
+(when (maybe-require-package 'consult)
+  (general-auto-unbind-keys)
+  ;; (global-set-key (kbd "C-x c p f d") 'consult-projectile-find-dir)
+  ;; (global-set-key (kbd "C-x c p f f") 'consult-projectile-find-file)
+  ;; (global-set-key (kbd "C-x c p f r") 'consult-projectile-recentf)
+  ;; (global-set-key (kbd "C-x c p b") 'consult-project-buffer)
+  ;; (global-set-key (kbd "C-x c p s") 'consult-projectile-switch-project)
+  (global-set-key (kbd "C-x c i") 'consult)
+  ;; (global-set-key (kbd "C-x c i m") 'consult-imenu-multi)
+  (global-set-key (kbd "C-x c d") 'consult-dir)
+  (global-set-key (kbd "C-x c r") 'consult-ripgrep)
+  (global-set-key (kbd "C-x c g") 'consult-git-grep)
+  (global-set-key (kbd "C-x c m") 'consult-bookmark)
+  (global-set-key (kbd "C-x c r") 'consult-register)
   (general-auto-unbind-keys t))
 
 
