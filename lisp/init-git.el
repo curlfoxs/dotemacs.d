@@ -108,5 +108,30 @@
 	      'diff-hl-diff-goto-hunk))
 (maybe-require-package 'browse-at-remote)
 
+;;---------------------------------------------------------------------
+;; delta
+;;---------------------------------------------------------------------
+;; @see delta https://github.com/dandavison/delta
+;; Install package delta and add following lines to .gitconfig
+;; [core]
+;;     pager = delta
+
+;; [interactive]
+;;     diffFilter = delta --color-only
+;; [add.interactive]
+;;     useBuiltin = false # required for git 2.37.0
+
+;; [delta]
+;;     navigate = true    # use n and N to move between diff sections
+;;     light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+
+;; [merge]
+;;     conflictstyle = diff3
+
+;; [diff]
+;;     colorMoved = default
+(when (and (executable-find "delta") (maybe-require-package 'magit-delta))
+  (add-hook 'magit-mode-hook (lambda() (magit-delta-mode +1))))
+
 (provide 'init-git)
 ;;; init-git.el ends here
