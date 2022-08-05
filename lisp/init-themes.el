@@ -28,24 +28,18 @@
 ;; first-time startup on Emacs > 26.3.
 (setq custom-safe-themes t)
 
-(defun reapply-theme ()
-  "Forcibly load the themes listed in `custom-enabled-themes'."
-  (dolist (theme custom-enabled-themes)
-    (unless (custom-theme-p theme)
-      (mapc #'disable-theme custom-enabled-themes)
-      (load-theme theme)))
-  (custom-set-variables `(custom-enabled-themes (quote ,custom-enabled-themes))))
+(defun counsel-load-theme (theme)
+  (mapc #'disable-theme custom-enabled-themes)
+  (load-theme theme)
+  )
 
-(defun set-and-reapply-theme (theme)
-  (setq custom-enabled-themes (list theme))
-  (reapply-theme))
 ;;---------------------------------------------------------------------
 ;; dimmer config
 ;;---------------------------------------------------------------------
 
 (when (maybe-require-package 'dimmer)
   (dimmer-configure-which-key)
-  (setq-default dimmer-fraction 0.25)
+  (setq-default dimmer-fraction 0.3)
   (add-hook 'after-init-hook 'dimmer-mode)
   (with-eval-after-load 'dimmer
     ;; TODO: file upstream as a PR
@@ -66,7 +60,7 @@
   "Pickup random color theme from THEMES."
   (let* ((available-themes (mapcar 'symbol-name themes))
 	 (theme (nth (random (length available-themes)) available-themes)))
-    (set-and-reapply-theme (intern theme))
+    (counsel-load-theme (intern theme))
     (message "Color theme [%s] loaded." theme)))
 
 (defvar wullic-favorite-dark-themes
@@ -83,7 +77,7 @@
     doom-material-dark
     doom-moonlight
     doom-xcode
-    doom-nova
+    ;; doom-nova
     doom-nord
     doom-zenburn
     deeper-blue
@@ -100,8 +94,7 @@
 
 (defvar wullic-favorite-light-themes
   '(solarized-gruvbox-light
-    leuven
-    modus-vivendi
+    ;; modus-vivendi
     sanityinc-solarized-light
     sanityinc-tomorrow-day
     spacemacs-dark)
@@ -130,15 +123,7 @@
   (pickup-random-color-theme (or wullic-favorite-color-themes
 				    (custom-enable-themes))))
 
-(defvar wullic-enable-startup-color-theme-p t
-  "Enable color theme during Emacs startup.")
-;; load color theme
-(setq wullic-enable-startup-color-theme-p t)
-
-;; Ensure that themes will be applied even if they have not been customized
-(if wullic-enable-startup-color-theme-p
-    (add-hook 'after-init-hook 'wullic/random-favorite-color-theme)
-  (add-hook 'after-init-hook 'reapply-theme))
+(wullic/random-favorite-color-theme)
 
 (provide 'init-themes)
 ;;; init-themes.el ends here
