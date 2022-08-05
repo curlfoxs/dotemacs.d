@@ -2,37 +2,32 @@
 ;;; Commentary:
 ;;; Code:
 
+(maybe-require-package 'consult)
 (require-package 'embark)
-(require 'embark)
 ;;---------------------------------------------------------------------
-;; Marginalia basic config
+;; Marginalia
 ;;---------------------------------------------------------------------
 (when (maybe-require-package 'marginalia)
-    (marginalia-mode 1))
+  (add-hook 'after-init-hook 'marginalia-mode)
+  (with-eval-after-load 'marginalia
+    (add-to-list 'marginalia-prompt-categories '("tab by name" . tab))))
 
 ;;---------------------------------------------------------------------
 ;; Embark basic config
 ;;---------------------------------------------------------------------
-(when (maybe-require-package 'embark)
-  (setq prefix-help-command #'embark-prefix-help-command)
-  (global-set-key (kbd "C-s-.") 'embark-act-noquit)
-  (global-set-key (kbd "C-.") 'embark-act)
-  (global-set-key (kbd "s-.") 'embark-dwim)
-  (global-set-key (kbd "C-h B") 'embark-bindings)
-  (when (and (maybe-require-package 'embark-consult)
-             (maybe-require-package 'consult))
-    (add-hook 'embark-coolect-mode 'consult-previw-at-point-mode)
-    ))
+(setq prefix-help-command #'embark-prefix-help-command)
+;; (global-set-key (kbd "C-s-.") 'embark-act-noquit)
+(global-set-key (kbd "C-.") 'embark-act)
+;; (global-set-key (kbd "s-.") 'embark-dwim)
+(global-set-key (kbd "C-h B") 'embark-bindings)
 
-;; ("C-s-." . embark-act-noquit)
-;; ("C-." . embark-act)         ;; pick some comfortable binding
-;; ("s-;" . embark-dwim)        ;; good alternative: M-.
-;; ("C-h B" . embark-bindings) ;; alternative for `describe-bindings'
+(with-eval-after-load 'consult
+  (with-eval-after-load 'embark
+    (require-package 'embark-consult)
+    (require 'embark-consult)
+    (add-hook 'embark-collect-mode 'consult-previw-at-point-mode)))
 
-;;---------------------------------------------------------------------
-;; Embark Customize -- tabbar
-;;---------------------------------------------------------------------
-(add-to-list 'marginalia-prompt-categories '("tab by name" . tab))
+
 (defun my-select-tab-by-name (tab)
   (interactive
    (list
@@ -44,7 +39,8 @@
 		     :category 'tab))))
   (tab-bar-select-tab-by-name tab))
 
-(embark-define-keymap embark-tab-actions
+(with-eval-after-load 'embark
+  (embark-define-keymap embark-tab-actions
   "Keymap for actions for tab-bar tabs (when mentioned by name)."
   ("s" tab-bar-select-tab-by-name)
   ("r" tab-bar-rename-tab-by-name)
@@ -54,17 +50,14 @@
 
 
 ;;---------------------------------------------------------------------
-;; Embark amazing wiki codes
-;;---------------------------------------------------------------------
-;;---------------------------------------------------------------------
 ;; Embark action no quit, I think it's better and set default
 ;;---------------------------------------------------------------------
-(require 'embark) ;; Why should I load it for repeat time?
-(defun embark-act-noquit ()
-  "Run action but don't quit the minibuffer afterwards."
-  (interactive)
-  (let ((embark-quit-after-action nil))
-    (embark-act)))
+;; (require 'embark) ;; Why should I load it for repeat time?
+;; (defun embark-act-noquit ()
+;;   "Run action but don't quit the minibuffer afterwards."
+;;   (interactive)
+;;   (let ((embark-quit-after-action nil))
+;;     (embark-act)))
 
 ;;---------------------------------------------------------------------
 ;; Showing info about available targets and actions
@@ -183,6 +176,8 @@
     (push '(embark-target-mode (:eval embark--target-mode-string)) mode-line-misc-info)
     (setq embark--target-mode-timer
           (run-with-idle-timer 0.1 t #'embark--target-mode-update))))
+  )
+
 
 
 (provide 'init-embark)

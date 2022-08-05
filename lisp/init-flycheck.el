@@ -3,7 +3,7 @@
 ;;; Code:
 
 (when (maybe-require-package 'flycheck)
-  (flycheck-mode nil) ;; Default disabled, open in needed
+  (add-hook 'after-init-hook (lambda () (flycheck-mode nil))) ;; Default disabled, open in needed
   ;; (add-hook 'after-init-hook 'global-flycheck-mode)
   (setq flycheck-display-errors-function #'flycheck-display-error-messages-unless-error-list)
 

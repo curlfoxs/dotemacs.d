@@ -83,7 +83,7 @@ inserted."
     (setq company-backends (delete 'company-ispell company-backends))
     (add-to-list 'company-backends 'company-ispell)))
 (add-hook 'text-mode-hook #'my-text-mode-company)
-
+(add-hook 'after-init-hook 'global-company-mode)
 ;;---------------------------------------------------------------------
 ;; Universal company
 ;;---------------------------------------------------------------------
@@ -98,8 +98,6 @@ inserted."
 ;;---------------------------------------------------------------------
 
 ;; company-transformers to sorted?
-
-(global-company-mode 1)
 
 (provide 'init-company)
 ;;; init-company.el ends here

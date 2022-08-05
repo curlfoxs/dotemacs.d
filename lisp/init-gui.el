@@ -26,6 +26,11 @@
   (add-to-list 'initial-frame-alist no-border))
 
 ;;---------------------------------------------------------------------
+;; Windows winner-mode
+;;---------------------------------------------------------------------
+(add-hook 'after-init-hook 'winner-mode)
+
+;;---------------------------------------------------------------------
 ;; Line numbers
 ;;---------------------------------------------------------------------
 (global-display-line-numbers-mode 1)
@@ -202,5 +207,5 @@
 (require-package 'default-text-scale)
 (add-hook 'after-init-hook 'default-text-scale-mode)
 
-(provide 'init-gui-frames)
-;;; init-gui-frames.el ends here
+(provide 'init-gui)
+;;; init-gui.el ends here

@@ -58,22 +58,27 @@
 (require 'init-elpa)     ;; Auto installing required packages
 (message "Loading package info completed")
 (require 'init-exec-path) ;; Set up %PATH
+
 (defconst *spell-check-support-enabled* nil) ;; Enable with t if you prefer, it wiil effect start time heavily
 (defconst *is-a-mac* (eq system-type 'darwin)) ;; mac osx system
+(defconst *is-a-ms-windows* (eq system-type 'windows-nt)) ;; ms windows system
 (when *is-a-mac* (set-keyboard-coding-system nil)) ;; The Apple X11 server make confusion when using "Metaq"
+(when *is-a-ms-windows* (setq ring-bell-function 'ignore)) ;; Close Windows notify sound
 ;;---------------------------------------------------------------------
 ;; Load specific features and modes
 ;;---------------------------------------------------------------------
 (message "Loading magic modules ...")
 
-(require-package 'diminish)
 (maybe-require-package 'scratch)
 (require-package 'command-log-mode) ;; Amazing debug tool
+(require-package 'diminish) ;; Simplify modebar
+(require-package 'general) ;; Amazing keybinding tool
+(require-package 'use-package) ;; Good use-package to install package
 
 (require 'init-frame-hooks)
-(require 'init-term) ; term emulator
-(require 'init-gui-frames)
+(require 'init-gui)
 (require 'init-themes)
+(require 'init-term) ; term emulator
 ;; (require 'init-dired)
 (require 'init-wgrep) ;; exclude mode and wgrep-replace!!!
 ;; (require 'init-ibuffer)
@@ -87,7 +92,7 @@
 ;; (require 'init-sessions)
 (require 'init-mmm) ;; only one consistent buffer
 ;; (require 'init-editing-utils)
-(require 'init-parens)
+(require 'init-sexp)
 (require 'init-whitespace)
 (require 'init-editing-tools) ;; TODO multiple column mode
 (require 'init-git)

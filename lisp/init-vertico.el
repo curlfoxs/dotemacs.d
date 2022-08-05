@@ -10,12 +10,14 @@
 ;; Basic config
 ;;---------------------------------------------------------------------
 (when (maybe-require-package 'savehist)
-  (savehist-mode))
+  (add-hook 'after-init-hook 'savehist-mode))
 
 (when (maybe-require-package 'vertico)
-  (vertico-mode 1)
-  (vertico-mouse-mode)
-  (vertico-multiform-mode))
+  (add-hook 'after-init-hook (lambda ()
+			       (vertico-mode 1)
+			       (vertico-mouse-mode)
+			       (vertico-multiform-mode)))
+)
 
 ;; find-file feature
 (when (maybe-require-package 'use-package)
@@ -44,14 +46,14 @@
 ;; Functions of amazing Wiki codes
 ;;---------------------------------------------------------------------
 ;; Automatically shrink Vertico for embark-collect-live
-(when (maybe-require-package 'embark)
-  (defun +embark-collect-hook ()
-  (when (eq embark-collect--kind :live)
-    (with-selected-window (active-minibuffer-window)
-      (setq-local vertico-resize t vertico-count 0)
-      (vertico--exhibit))))
-  (add-hook 'embark-collect-mode-hook #'+embark-collect-hook)
-  )
+;; (when (maybe-require-package 'embark)
+;;   (defun +embark-collect-hook ()
+;;   (when (eq embark-collect--kind :live)
+;;     (with-selected-window (active-minibuffer-window)
+;;       (setq-local vertico-resize t vertico-count 0)
+;;       (vertico--exhibit))))
+;;   (add-hook 'embark-collect-mode-hook #'+embark-collect-hook)
+;;   )
 
 ;; Adjust number of visible candidates when buffer is resized
 ;; When resizing the minibuffer (e.g., via the mouse), adjust the number of visible candidates in Vertico automatically.

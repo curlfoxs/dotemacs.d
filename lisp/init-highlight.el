@@ -6,7 +6,7 @@
 ;; Rainbow-mode
 ;;---------------------------------------------------------------------
 (when (maybe-require-package 'rainbow-mode)
-  (rainbow-mode t)
+  ;; (add-hook 'after-init-hook 'rainbow-mode)
   (when (maybe-require-package 'rainbow-delimiters)
     (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
     (with-eval-after-load 'rainbow-delimiters-mode
@@ -20,8 +20,9 @@
 ;; (add-hook 'text-mode-hook (lambda () (hl-line-mode t)))
 
 (when (maybe-require-package 'volatile-highlights)
-  (volatile-highlights-mode t)
-  (diminish 'volatile-highlights-mode))
+  (add-hook 'prog-mode-hook 'volatile-highlights-mode)
+  (with-eval-after-load 'volatile-highlights
+   (diminish 'volatile-highlights-mode)))
 
 ;;---------------------------------------------------------------------
 ;; highlight-parentheses

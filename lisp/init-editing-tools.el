@@ -1,25 +1,29 @@
 ;;; init-editing-tools.el --- Insert description here -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
-(require-package 'ace-window)
+
+;;---------------------------------------------------------------------
+;; Drag-stuff
+;;---------------------------------------------------------------------
 (require-package 'drag-stuff)
+(global-set-key (kbd "M-<up>") 'drag-stuff-up)
+(global-set-key (kbd "M-<down>") 'drag-stuff-down)
 
 ;;---------------------------------------------------------------------
 ;; which-key
 ;;---------------------------------------------------------------------
-(require-package 'which-key)
-(which-key-mode 1)
-
-(with-eval-after-load 'which-key
-  (diminish 'which-key-mode))
+(when (maybe-require-package 'which-key)
+  (add-hook 'after-init-hook 'which-key-mode)
+  (with-eval-after-load 'which-key
+  (diminish 'which-key-mode)))
 
 ;;---------------------------------------------------------------------
 ;; Delete-selection
 ;;---------------------------------------------------------------------
 (require-package 'delsel)
-(delete-selection-mode 1)
+(add-hook 'after-init-hook 'delete-selection-mode)
 
-(global-auto-revert-mode 1)
+(add-hook 'after-init-hook 'global-auto-revert-mode)
 
 ;; smart tab behavior - indent or complete
 (setq tab-always-indent 'complete)
@@ -34,7 +38,7 @@
 ;;---------------------------------------------------------------------
 ;; save-place-mode save file palce when reopen
 ;;---------------------------------------------------------------------
-(save-place-mode 1)
+(add-hook 'after-init-hook 'save-place-mode)
 
 (provide 'init-editing-tools)
 ;;; init-editing-tools.el ends here

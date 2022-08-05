@@ -2,8 +2,7 @@
 ;;; Commentary:
 ;;; Code:
 
-(require 'ox)
-(require 'org)
+;; (require 'org)
 
 ;;---------------------------------------------------------------------
 ;; Prefer-config
@@ -96,8 +95,10 @@
 (setq org-capture-templates
       `(("t" "todo" entry (file "")  ; "" => `org-default-notes-file'
          "* NEXT %?\n%U\n" :clock-resume t)
+	("p" "project" entry (file "") 
+         "* PROJECT %?\n%U\n\nRound: \n\n" :clock-resume t)
         ("n" "note" entry (file "")
-         "* NEXT %? :NOTE:\n:PROPERTIES:\n:CATEGORY: note\n:END:\n%U\n" :clock-resume t)
+         "* NEXT %? :NOTE:\n:PROPERTIES:\n:CATEGORY: note\n:END:\n%U\n\nRound: \n" :clock-resume t)
         ))
 
 ;;---------------------------------------------------------------------
@@ -410,7 +411,8 @@ contextual information."
     (org-export-to-file 'bili-html file
       async subtreep visible-only body-only ext-plist)))
 
-(org-export-define-derived-backend 'bili-html'html
+(with-eval-after-load 'ox
+  (org-export-define-derived-backend 'bili-html'html
   :translate-alist
   '((src-block . org-bili-html-src-block)
     (template . org-bili-html-template)
@@ -421,7 +423,8 @@ contextual information."
   :menu-entry
   '(?b "Export to Bilibili article HTML"
        ((?H "As HTML buffer" org-bili-html-export-as-html)
-	(?h "As HTML file" org-bili-html-export-to-html))))
+	(?h "As HTML file" org-bili-html-export-to-html)))))
+
 
 (provide 'init-org)
 ;;; init-org.el ends here

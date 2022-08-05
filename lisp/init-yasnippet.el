@@ -4,8 +4,11 @@
 
 (use-package yasnippet
   :ensure t
+  :hook
+  (prog-mode . yas-minor-mode)
+  (text-mode . yas-minor-mode)
   :config
-  (yas-global-mode 1)
+  ;; (yas-global-mode 1)
   (use-package yasnippet-snippets
     :ensure t)
   ;; (yas-reload-all)
