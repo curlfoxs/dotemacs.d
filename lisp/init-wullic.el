@@ -205,8 +205,8 @@
 (global-set-key (kbd "M-n") 'forward-paragraph)
 (global-set-key (kbd "s-<up>") 'drag-stuff-up)
 (global-set-key (kbd "s-<down>") 'drag-stuff-down)
-(global-set-key (kbd "s-<left>") 'previous-buffer)
-(global-set-key (kbd "s-<right>") 'next-buffer)
+(global-set-key (kbd "M-<left>") 'previous-buffer)
+(global-set-key (kbd "M-<right>") 'next-buffer)
 
 ;;---------------------------------------------------------------------
 ;; sexp

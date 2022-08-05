@@ -9,10 +9,19 @@
 ;;---------------------------------------------------------------------
 ;; Basic config
 ;;---------------------------------------------------------------------
+(general-auto-unbind-keys)
 (global-set-key (kbd "C-s") 'consult-line)
 (global-set-key (kbd "C-x b") 'consult-buffer)
 (global-set-key (kbd "M-y") 'consult-yank-pop)
 (global-set-key (kbd "C-c f") 'consult-recent-file)
+(global-set-key (kbd "C-x c i") 'consult)
+(global-set-key (kbd "C-x c d") 'consult-dir)
+(global-set-key (kbd "C-x c r") 'consult-ripgrep)
+(global-set-key (kbd "C-x c g") 'consult-git-grep)
+(global-set-key (kbd "C-x c m") 'consult-bookmark)
+(global-set-key (kbd "C-x c r") 'consult-register)
+(general-auto-unbind-keys t)
+
 ;; Enable automatic preview at point in the *Completions* buffer. This is
 ;; relevant when you use the default completion UI. You may want to also
 ;; enable `consult-preview-at-point-mode` in Embark Collect buffers.
