@@ -55,7 +55,7 @@
 ;; agenda
 ;;---------------------------------------------------------------------
 ;; Agenda files
-(setq wullic-org-directory "~/org")
+(setq wullic-org-directory "~/Google-drive/org/")
 (setq org-default-notes-file  (expand-file-name "inbox.org" wullic-org-directory))
 ;; (setq org-agenda-files (list "~/org/computer.org"
 ;; 			     "~/org/inbox.org"
@@ -96,7 +96,7 @@
       `(("t" "todo" entry (file "")  ; "" => `org-default-notes-file'
          "* NEXT %?\n%U\n" :clock-resume t)
 	("p" "project" entry (file "") 
-         "* PROJECT %?\n%U\n\nRound: \n\n" :clock-resume t)
+         "* PROJECT %?\n%U\n\nAround: \n\n" :clock-resume t)
         ("n" "note" entry (file "")
          "* NEXT %? :NOTE:\n:PROPERTIES:\n:CATEGORY: note\n:END:\n%U\n\nRound: \n" :clock-resume t)
         ))

@@ -34,11 +34,11 @@
       '(("d" "default" plain
 	 "%?"
 	 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-			    "#+title: ${title}\n\n- tags ::      :noexport:\n")
+			    "#+title: ${title}\n\n- tags ::      :noexport:\n\n* What's ${title}\n\n* Resources\n\n")
 	 :unnarrowed t)
 
 	("l" "programming language" plain
-	 "* Characteristics\n\n- Family: %?\n- Inspired by: \n\n* Reference:\n\n"
+	 "* What's ${title}\n\n* Resources\n\n* Family\n\n* Syntax\n\n* Features\n\n* API\n\n* Enviroment of\n\n* Hacking\nlibrary, package-management, skills\n"
 	 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
 			    "#+title: ${title}\n\n- tags ::      :noexport:\n")
 	 :unnarrowed t)
@@ -50,7 +50,7 @@
 	 :unnarrowed t)
 
 	("p" "project" plain
-	 "- tags ::      :noexport:\n\n* Goals\n\n%?\n\n* Resource\n\n** 巨人的肩膀\n\n** 知识组件\n\n** 鲤鱼跃龙门\n\n* Tasks\n\n** PROJECT Tasks \n\n** TODO Add initial tasks\n\n* Dates\n\n* Notes\n\n"
+	 "- tags ::      :noexport:\n\n* Goals\n\n%?\n\n* Resources\n\n** 巨人的肩膀\n\n** 知识组件\n\n** 鲤鱼跃龙门\n\n* Tasks\n\n** PROJECT Tasks \n\n** TODO Add New-inbox tasks\n\n* Dates\n\n* Notes\n\n"
 	 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
 			    "#+title: ${title}\n#+filetags: Project\n\n")
 	 :unnarrowed t)))
