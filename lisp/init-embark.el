@@ -125,6 +125,8 @@
        (funcall #',split-type)
        (call-interactively #',fn))))
 
+(define-key embark-file-map (kbd "j") 'dired-jump)
+
 (define-key embark-file-map     (kbd "o") (my/embark-ace-action find-file))
 (define-key embark-buffer-map   (kbd "o") (my/embark-ace-action switch-to-buffer))
 (define-key embark-bookmark-map (kbd "o") (my/embark-ace-action bookmark-jump))
@@ -135,20 +137,18 @@
 (define-key embark-buffer-map   (kbd "3") (my/embark-split-action switch-to-buffer split-window-right))
 (define-key embark-bookmark-map (kbd "3") (my/embark-split-action bookmark-jump split-window-right))
 
-;;---------------------------------------------------------------------
-;; Personal customize
-;;---------------------------------------------------------------------
+
 ;; Showing embark actions in keycast-mode
-(defun store-action-key+cmd (cmd)
-  (setq keycast--this-command-keys (this-single-command-keys)
-        keycast--this-command cmd))
-(advice-add 'embark-keymap-prompter :filter-return #'store-action-key+cmd)
+;; (defun store-action-key+cmd (cmd)
+;;   (setq keycast--this-command-keys (this-single-command-keys)
+;;         keycast--this-command cmd))
+;; (advice-add 'embark-keymap-prompter :filter-return #'store-action-key+cmd)
 
-(defun force-keycast-update (&rest _)
-  (force-mode-line-update t))
+;; (defun force-keycast-update (&rest _)
+;;   (force-mode-line-update t))
 
-(dolist (cmd '(embark-act embark-become))
-  (advice-add cmd :before #'force-keycast-update))
+;; (dolist (cmd '(embark-act embark-become))
+;;   (advice-add cmd :before #'force-keycast-update))
 
 
 ;; Show the current Embark target types in the modeline
