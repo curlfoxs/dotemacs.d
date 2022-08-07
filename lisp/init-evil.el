@@ -80,48 +80,72 @@
       (add-hook 'magit-mode-hook
 		(lambda () (define-key magit-mode-map (kbd "SPC") wullic-leader-map))))
   (add-hook 'dired-mode-hook (lambda () (define-key dired-mode-map (kbd "SPC") wullic-leader-map)))
+  (add-hook 'org-agenda-mode-hook (lambda () (define-key org-agenda-mode-map (kbd "SPC") wullic-leader-map)))
 
   (general-evil-setup)
   (general-auto-unbind-keys)
   (general-nmap
-    :state '(normal motion)
+    :state '(normal motion visual emacs)
     :override t
     :prefix "SPC"
     :prefix-map 'wullic-leader-map
     ;; "bb" 'previous-buffer
     ;; "bf" 'next-buffer
-    "e" 'consult-buffer
+    "0" 'delete-window
+    "1" 'delete-other-windows
+    "2" 'split-window-below
+    "3" 'split-window-right
+    "4" (general-simulate-key "C-x 4")
+    "5" (general-simulate-key "C-x 5")
+    ;; "c" 'my-query-replace-prefix
+    ;; "a" 'org-agenda
+    "d" 'dired-jump
+    "ee" 'sanityinc/eval-last-sexp-or-region
+    "el" 'sanityinc/load-this-file
     "ff" 'find-file
     "fr" 'consult-recent-file
     "fd" 'consult-dir
     "fR" 'rename-this-file-and-buffer
     "fD" 'delete-this-file
+    "fs" 'consult-buffer
+    "fp" 'previous-buffer
+    "fn" 'next-buffer
+    "fk" 'kill-buffer
     "gr" 'rg-project
-    "gg" 'consult-git-grep
+    "ga" 'ag-project
+    ;; "gl" 'consult-line-multi
     "h" 'help-command
-    "ii" 'consult-imenu
-    "im" 'consult-imenu-multi
-    "jx" 'exchange-point-and-mark
-    "j;" 'avy-goto-char-timer
+    "i" 'consult-buffer  ;; ibuffer
+    ;; "jx" 'exchange-point-and-mark
+    "j;" 'avy-goto-char-timer ;; 「j」 Means jump
     "jl" 'consult-goto-line
-    "mm" 'magit-status
+    "jd" 'xref-find-definitions
+    "jo" 'consult-outline
+    "js" 'xref-find-apropos
+    "jr" 'xref-find-references
+    "lgg" 'conslut-git-grep ;; 「l」 Meas list， 它和consult的意思有异曲同工之妙。
+    "lgr" 'consult-ripgrep
+    "lm" 'consult-line-multi
+    "lo" 'consult-outline
+    "lii" 'consult-imenu
+    "lim" 'consult-imenu-multi
+    "ls" 'consult-buffer
+    "mm" 'magit-status ;; 「m」 Means magit
     "mc" 'magit-clone
+    "mb" 'consult-bookmark  ;; 「m」 Means mark
+    "mf" 'bookmark-set ;; mark file
+    "mr" 'consult-register
+    "ml" 'consult-register-store  ;; mark line
+    "o" 'ace-window
     "p" (general-simulate-key "C-c p")
     "q" 'save-buffers-kill-emacs
-    "rb" 'consult-bookmark
-    "rm" 'bookmark-set
-    "rr" 'consult-register
-    "rs" 'consult-register-store
+    "r" 'consult-recent-file
     "s" 'save-buffer
     "wo" 'wg-open-workgroup
     "wk" 'wg-kill-workgroup
     "wc" 'wg-create-workgroup
-    "ww" 'ace-window
     "wp" 'winner-undo
     "wn" 'winner-redo
-    "xd" 'xref-find-definitions
-    "xs" 'xref-find-apropos
-    "xr" 'xref-find-references
     "y" 'browse-kill-ring
     "SPC" 'cycle-spacing)
   (general-auto-unbind-keys t)
